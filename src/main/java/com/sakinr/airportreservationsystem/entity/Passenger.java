@@ -1,6 +1,9 @@
 package com.sakinr.airportreservationsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,18 +15,23 @@ import java.io.Serializable;
 @Builder
 @ToString
 @Entity
-@Table(name = "PASSENGER")
+@DynamicUpdate
+@Table(name = "passenger")
 public class Passenger implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id")
     private Integer id;
 
     private String firstname;
     private String lastname;
     private String gender;
-    private int age;
+    private Integer age;
     private String phone;
+
+    @JsonManagedReference
+    @OneToOne(mappedBy = "passenger",fetch = FetchType.LAZY, optional = false)
+    private Ticket ticket_id;
 
 }

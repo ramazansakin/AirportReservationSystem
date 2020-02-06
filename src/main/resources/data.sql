@@ -1,39 +1,47 @@
-DROP TABLE IF EXISTS TICKET;
+DROP TABLE IF EXISTS airport;
 
-DROP TABLE IF EXISTS PASSENGER;
+DROP TABLE IF EXISTS ticket;
 
-DROP TABLE IF EXIST AIRPORT;
+DROP TABLE IF EXISTS passenger;
 
-CREATE TABLE AIRPORT(
+
+CREATE TABLE airport(
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE PASSENGER(
+CREATE TABLE passenger(
     id INT AUTO_INCREMENT  PRIMARY KEY,
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
-    gender VARCHAR(50) NOT NULL,
-    age INT NOT NULL,
-    phone VARCHAR(15) DEFAULT NULL
+    gender VARCHAR(50),
+    age INT DEFAULT 0,
+    phone VARCHAR(15),
+    ticket_id INT
 );
 
-CREATE TABLE TICKET(
+CREATE TABLE ticket(
     id INT AUTO_INCREMENT  PRIMARY KEY,
-    passenger_id INT NOT NULL,
+    passenger INT NOT NULL,
     price INT NOT NULL,
-    FOREIGN KEY (passenger_id) REFERENCES PASSENGER(id)
+    FOREIGN KEY (passenger) REFERENCES passenger(id)
 );
 
-INSERT INTO AIRPORT(id, name)  VALUES   ('Sabiha Gokcen Havalimanı'),
+
+
+
+INSERT INTO airport( name )  VALUES     ('Sabiha Gokcen Havalimanı'),
                                         ('Zafer Havalimanı'),
                                         ('Malatya Havalimanı');
 
-INSERT INTO PASSENGER( firstname, lastname, gender, age, phone) VALUES ('Ramazan', 'Sakin', 'male', 27, '905554443322'),
-                                                                ('Munise', 'Sakin', 'female', 26, '905554443322'),
-                                                                ('Mustafa', 'Sakin', 'male', 14, '905554443322'),
-                                                                ('Mustafa', 'Kuytu', 'male', 25, '905554443322');
+
+INSERT INTO passenger( firstname, lastname, gender, age, phone ) VALUES ( 'Ali', 'Tek', 'male', 27, '905554443322'),
+                                                                        ( 'Veli', 'Telli', 'female', 26, '905554443322'),
+                                                                        ( 'Mustafa', 'Tutku', 'male', 14, '905554443322'),
+                                                                        ( 'Cem', 'Saygın', 'male', 25, '905554443322');
 
 
-INSERT INTO TICKET(passenger_id, price) VALUES  (1, 45),
-                                                (2, 64);
+INSERT INTO ticket(passenger, price) VALUES     (1, 45),
+                                                (2, 64),
+                                                (3, 90),
+                                                (4, 45);

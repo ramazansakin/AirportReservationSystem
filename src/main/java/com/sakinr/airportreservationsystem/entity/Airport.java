@@ -1,8 +1,11 @@
 package com.sakinr.airportreservationsystem.entity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -10,9 +13,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @ToString
+@DynamicUpdate
+@DynamicInsert
 @Entity
-@Table(name = "AIRPORT")
-public class Airport {
+@Table(name = "airport")
+public class Airport implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
