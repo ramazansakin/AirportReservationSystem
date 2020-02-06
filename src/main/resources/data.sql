@@ -1,13 +1,23 @@
-DROP TABLE IF EXISTS airport;
 
 DROP TABLE IF EXISTS ticket;
 
 DROP TABLE IF EXISTS passenger;
 
+DROP TABLE IF EXISTS route;
+
+DROP TABLE IF EXISTS airport;
 
 CREATE TABLE airport(
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE route(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    departure_airport INT NOT NULL,
+    arrival_airport INT NOT NULL,
+    FOREIGN KEY (departure_airport) REFERENCES airport(id),
+    FOREIGN KEY (arrival_airport) REFERENCES airport(id)
 );
 
 CREATE TABLE passenger(
@@ -23,16 +33,19 @@ CREATE TABLE passenger(
 CREATE TABLE ticket(
     id INT AUTO_INCREMENT  PRIMARY KEY,
     passenger INT NOT NULL,
-    price INT NOT NULL,
+    price INT DEFAULT 0,
     FOREIGN KEY (passenger) REFERENCES passenger(id)
 );
 
 
-
-
-INSERT INTO airport( name )  VALUES     ('Sabiha Gokcen Havalimanı'),
+INSERT INTO airport( name)  VALUES     ('Sabiha Gokcen Havalimanı'),
                                         ('Zafer Havalimanı'),
-                                        ('Malatya Havalimanı');
+                                        ('Malatya Havalimanı' ),
+                                        ('Aydın Havalimanı');
+
+
+INSERT INTO route( departure_airport, arrival_airport ) VALUES  (1, 3),
+                                                                (2, 4);
 
 
 INSERT INTO passenger( firstname, lastname, gender, age, phone ) VALUES ( 'Ali', 'Tek', 'male', 27, '905554443322'),

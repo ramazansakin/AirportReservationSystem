@@ -1,5 +1,6 @@
 package com.sakinr.airportreservationsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -25,4 +26,5 @@ public class Airport implements Serializable {
     private Integer id;
 
     private String name;
+
 }
