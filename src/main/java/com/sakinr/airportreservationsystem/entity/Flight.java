@@ -41,8 +41,9 @@ public class Flight implements Serializable {
     @JoinColumn(name = "route_id", referencedColumnName = "id")
     private Passenger route;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "airport_company_id")
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "airport_company_id", referencedColumnName = "id")
     private AirportCompany airportCompany;
 
 }

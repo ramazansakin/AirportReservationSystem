@@ -83,7 +83,7 @@ INSERT INTO passenger( firstname, lastname, gender, age, phone ) VALUES ( 'Ali',
 
 
 INSERT INTO flight( code, departure_date, estimated_arrival_date, route_id, airport_company_id) VALUES  ( 'TCF129', '01.03.2020', '01.03.2020', 1, 1 ),
-                                                                                                        ( 'TCF129', '01.03.2020', '01.03.2020', 2, 2 );
+                                                                                                        ( 'GDFS12', '01.03.2020', '01.03.2020', 2, 2 );
 
 
 INSERT INTO ticket(passenger_id, price, flight_id) VALUES   (1, 45, 1),
