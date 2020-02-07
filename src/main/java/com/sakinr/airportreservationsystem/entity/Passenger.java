@@ -1,7 +1,5 @@
 package com.sakinr.airportreservationsystem.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -29,9 +27,5 @@ public class Passenger implements Serializable {
     private String gender;
     private Integer age;
     private String phone;
-
-    @JsonManagedReference
-    @OneToOne(mappedBy = "passenger",fetch = FetchType.LAZY, optional = false)
-    private Ticket ticket_id;
 
 }
