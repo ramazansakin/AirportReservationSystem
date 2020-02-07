@@ -1,6 +1,7 @@
 package com.sakinr.airportreservationsystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,12 +22,11 @@ public class Ticket implements Serializable {
     @Column(name = "id", updatable = false, nullable = false)
     private Integer id;
 
-    @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "passenger_id")
     private Passenger passenger;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "flight_id")
     private Flight flight;

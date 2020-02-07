@@ -1,8 +1,11 @@
 package com.sakinr.airportreservationsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -13,7 +16,7 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = "airport_company")
-public class AirportCompany {
+public class AirportCompany implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +26,7 @@ public class AirportCompany {
     @Column(name = "company_name")
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "airportCompany", cascade = {
             CascadeType.ALL
     })

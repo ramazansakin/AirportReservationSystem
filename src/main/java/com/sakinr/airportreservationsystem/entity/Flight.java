@@ -1,6 +1,7 @@
 package com.sakinr.airportreservationsystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -32,16 +33,15 @@ public class Flight implements Serializable {
     @Column
     private String estimated_arrival_date;
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
-    @JsonBackReference
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "route_id", referencedColumnName = "id")
-    private Passenger route;
+    private Route route;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "airport_company_id", referencedColumnName = "id")
     private AirportCompany airportCompany;
