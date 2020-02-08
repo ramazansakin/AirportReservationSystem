@@ -37,11 +37,11 @@ public class Flight implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "route_id", referencedColumnName = "id")
     private Route route;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "airport_company_id", referencedColumnName = "id")
     private AirportCompany airportCompany;
 

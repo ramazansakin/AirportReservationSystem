@@ -28,7 +28,7 @@ public class AirportCompany implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "airportCompany", cascade = {
-            CascadeType.MERGE
+            CascadeType.ALL
     })
     private List<Flight> flights;
 
