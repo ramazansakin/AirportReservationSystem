@@ -20,7 +20,7 @@ public class AirportController {
     }
 
     @GetMapping(value = "/get")
-    List<Airport> getAllTickets() {
+    List<Airport> getAllAirports() {
         return airportService.getAllAirports();
     }
 
