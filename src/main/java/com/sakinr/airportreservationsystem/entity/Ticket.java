@@ -22,11 +22,11 @@ public class Ticket implements Serializable {
     @Column(name = "id", updatable = false, nullable = false)
     private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "passenger_id")
     private Passenger passenger;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id")
     private Flight flight;
 
