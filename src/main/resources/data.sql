@@ -41,6 +41,8 @@ CREATE TABLE route(
 CREATE TABLE flight(
     id INT AUTO_INCREMENT  PRIMARY KEY,
     code VARCHAR(10) NOT NULL,
+    quota INT DEFAULT 0,
+    price INT DEFAULT 0,
     departure_date VARCHAR(20),
     estimated_arrival_date VARCHAR(20),
     route_id INT NOT NULL,
@@ -51,7 +53,6 @@ CREATE TABLE flight(
 
 CREATE TABLE ticket(
     id INT AUTO_INCREMENT  PRIMARY KEY,
-    price INT DEFAULT 0,
     passenger_id INT NOT NULL,
     flight_id INT NOT NULL,
     FOREIGN KEY (passenger_id) REFERENCES passenger(id),
@@ -89,15 +90,15 @@ INSERT INTO passenger( firstname, lastname, gender, age, phone ) VALUES ( 'Ali',
                                                                         ( 'Semih', 'Sanlı', 'male', 25, '905554443322');
 
 
-INSERT INTO flight( code, departure_date, estimated_arrival_date, route_id, airport_company_id) VALUES  ( 'TCF129', '01.03.2020', '01.03.2020', 3, 1 ),
-                                                                                                        ( 'GDFS12', '01.03.2020', '01.03.2020', 1, 2 ),
-                                                                                                        ( 'GDFS12', '01.03.2020', '01.03.2020', 4, 3 ),
-                                                                                                        ( 'GDFS12', '01.03.2020', '01.03.2020', 4, 2 );
+INSERT INTO flight( code, departure_date, estimated_arrival_date, route_id, airport_company_id, quota, price) VALUES    ( 'TCF129', '01.03.2020', '01.03.2020', 3, 1, 45, 30 ),
+                                                                                                                        ( 'GDFS12', '01.03.2020', '01.03.2020', 1, 2, 50, 40 ),
+                                                                                                                        ( 'GDFS12', '01.03.2020', '01.03.2020', 4, 3, 120, 15 ),
+                                                                                                                        ( 'GDFS12', '01.03.2020', '01.03.2020', 4, 2, 2, 90 );
 
 
-INSERT INTO ticket(passenger_id, price, flight_id) VALUES   (1, 45, 1),
-                                                            (2, 64, 3),
-                                                            (3, 90, 2),
-                                                            (4, 45, 2),
-                                                            (5, 90, 4);
+INSERT INTO ticket(passenger_id, flight_id) VALUES      (1, 1),
+                                                        (2, 3),
+                                                        (3, 2),
+                                                        (4, 2),
+                                                        (5, 4);
 

@@ -27,6 +27,12 @@ public class Flight implements Serializable {
     @Column(name = "code")
     private String code;
 
+    @Column(name = "quota")
+    private Integer quota;
+
+    @Column(name = "price")
+    private Integer price;
+
     @Column
     private String departure_date;
 

@@ -2,11 +2,10 @@ package com.sakinr.airportreservationsystem.service.impl;
 
 import com.sakinr.airportreservationsystem.entity.AirportCompany;
 import com.sakinr.airportreservationsystem.entity.Flight;
+import com.sakinr.airportreservationsystem.entity.Passenger;
+import com.sakinr.airportreservationsystem.entity.Ticket;
 import com.sakinr.airportreservationsystem.repository.AirportCompanyRepository;
-import com.sakinr.airportreservationsystem.service.AirportCompanyService;
-import com.sakinr.airportreservationsystem.service.AirportService;
-import com.sakinr.airportreservationsystem.service.FlightService;
-import com.sakinr.airportreservationsystem.service.RouteService;
+import com.sakinr.airportreservationsystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +26,12 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
 
     @Autowired
     AirportService airportService;
+
+    @Autowired
+    TicketService ticketService;
+
+    @Autowired
+    PassengerService passengerService;
 
     @Override
     public List<AirportCompany> getAllAirportCompanies() {
@@ -67,5 +72,25 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
         boolean present = airportCompany.isPresent();
         airportCompanyRepository.delete(airportCompany.get());
         return present;
+    }
+
+    @Override
+    public Ticket buyTicketForFlight(Integer flight_id, Integer passenger_id) {
+        Optional<Passenger> passenger = passengerService.getPassenger(passenger_id);
+        if( passenger.isPresent() ){
+            Optional<Flight> flight = flightService.getFlight(flight_id);
+            if(flight.isPresent()){
+                if( flight.get().getTickets().size() < flight.get().getQuota() ){
+                    Ticket newTicket = new Ticket();
+                    newTicket.setFlight(flight.get());
+                    newTicket.setPassenger(passenger.get());
+                    newTicket.setPrice( (flight.get().getQuota() * 10)*10 + flight.get().getPrice() );
+
+                    ticketService.addTicket(newTicket);
+                }
+            }
+        }
+
+        return null;
     }
 }
