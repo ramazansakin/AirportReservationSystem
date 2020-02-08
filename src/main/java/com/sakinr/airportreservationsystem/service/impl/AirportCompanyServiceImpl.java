@@ -82,12 +82,13 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
             if (flight.isPresent()) {
                 if (flight.get().getTickets().size() < flight.get().getQuota()) {
                     Ticket newTicket = new Ticket();
-                    newTicket.setFlight(flight.get());
                     newTicket.setPassenger(passenger.get());
 
-                    newTicket.setPrice(calculatePrice(flight.get().getPrice(),
+                    Flight temp = flight.get();
+                    temp.setPrice(calculatePrice(flight.get().getPrice(),
                             flight.get().getTickets().size(),
                             flight.get().getQuota()));
+                    newTicket.setFlight(temp);
 
                     ticketService.addTicket(newTicket);
                 }

@@ -4,6 +4,7 @@ package com.sakinr.airportreservationsystem.controller;
 import com.sakinr.airportreservationsystem.entity.Airport;
 import com.sakinr.airportreservationsystem.entity.AirportCompany;
 import com.sakinr.airportreservationsystem.entity.Flight;
+import com.sakinr.airportreservationsystem.entity.Ticket;
 import com.sakinr.airportreservationsystem.service.AirportCompanyService;
 import com.sakinr.airportreservationsystem.service.AirportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,10 @@ public class AirportCompanyController {
     @PostMapping(value = "/addnewflight")
     boolean addNewFlight(@RequestBody Flight flight){
         return airportCompanyService.addNewFlight(flight);
+    }
+
+    @PostMapping(value = "/buyticket")
+    Ticket buyTicket(@RequestParam Integer flight_id, @RequestParam Integer passenger_id) {
+        return airportCompanyService.buyTicketForFlight(flight_id, passenger_id);
     }
 }

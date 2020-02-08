@@ -1,6 +1,7 @@
 package com.sakinr.airportreservationsystem.controller;
 
 import com.sakinr.airportreservationsystem.entity.Flight;
+import com.sakinr.airportreservationsystem.entity.Ticket;
 import com.sakinr.airportreservationsystem.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +44,4 @@ public class FlightController {
         return flightService.deleteFlight(id);
     }
 
-    
 }
