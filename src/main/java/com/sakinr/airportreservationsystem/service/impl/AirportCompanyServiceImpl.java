@@ -75,6 +75,18 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
     }
 
     @Override
+    public boolean cancelTicket(Integer ticket_id) {
+        return ticketService.deleteTicket(ticket_id);
+    }
+
+    @Override
+    public Ticket searchTicket(Integer ticket_id) {
+        if (ticketService.getTicket(ticket_id).isPresent())
+            return ticketService.getTicket(ticket_id).get();
+        return Optional.of(new Ticket()).get();
+    }
+
+    @Override
     public Ticket buyTicketForFlight(Integer flight_id, Integer passenger_id) {
         Optional<Passenger> passenger = passengerService.getPassenger(passenger_id);
         if (passenger.isPresent()) {
@@ -94,12 +106,10 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
                 }
             }
         }
-
-        return null;
+        return Optional.of(new Ticket()).get();
     }
 
     private Integer calculatePrice(Integer price, Integer size, Integer quota) {
-
         Integer rate = (quota * 10) / 100;
         if (size < rate)
             return price;

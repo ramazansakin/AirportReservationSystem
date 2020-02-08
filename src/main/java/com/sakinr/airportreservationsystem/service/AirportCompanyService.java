@@ -1,11 +1,8 @@
 package com.sakinr.airportreservationsystem.service;
 
-import com.sakinr.airportreservationsystem.entity.Airport;
 import com.sakinr.airportreservationsystem.entity.AirportCompany;
 import com.sakinr.airportreservationsystem.entity.Flight;
 import com.sakinr.airportreservationsystem.entity.Ticket;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,5 +20,9 @@ public interface AirportCompanyService {
 
     boolean addNewFlight(Flight flight);
 
-    public Ticket buyTicketForFlight(Integer flight_id, Integer passenger_id);
+    Ticket buyTicketForFlight(Integer flight_id, Integer passenger_id);
+
+    boolean cancelTicket(Integer ticket_id);
+
+    Ticket searchTicket(Integer ticket_id);
 }
