@@ -3,6 +3,7 @@ package com.sakinr.airportreservationsystem.controller;
 
 import com.sakinr.airportreservationsystem.entity.Airport;
 import com.sakinr.airportreservationsystem.entity.AirportCompany;
+import com.sakinr.airportreservationsystem.entity.Flight;
 import com.sakinr.airportreservationsystem.service.AirportCompanyService;
 import com.sakinr.airportreservationsystem.service.AirportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +45,10 @@ public class AirportCompanyController {
     @DeleteMapping(value = "/delete")
     boolean deleteAirportCompany(@RequestParam Integer id) {
         return airportCompanyService.deleteAirportCompany(id);
+    }
+
+    @PostMapping(value = "/addnewflight")
+    boolean addNewFlight(@RequestBody Flight flight){
+        return airportCompanyService.addNewFlight(flight);
     }
 }

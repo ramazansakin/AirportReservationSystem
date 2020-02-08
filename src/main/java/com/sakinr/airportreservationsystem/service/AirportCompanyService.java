@@ -2,6 +2,7 @@ package com.sakinr.airportreservationsystem.service;
 
 import com.sakinr.airportreservationsystem.entity.Airport;
 import com.sakinr.airportreservationsystem.entity.AirportCompany;
+import com.sakinr.airportreservationsystem.entity.Flight;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface AirportCompanyService {
     AirportCompany updateAirportCompany(@RequestBody AirportCompany airportCompany);
 
     boolean deleteAirportCompany(Integer id);
+
+    boolean addNewFlight(@RequestBody Flight flight);
 }

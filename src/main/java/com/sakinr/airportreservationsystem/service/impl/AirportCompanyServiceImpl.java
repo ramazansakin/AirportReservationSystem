@@ -1,8 +1,12 @@
 package com.sakinr.airportreservationsystem.service.impl;
 
 import com.sakinr.airportreservationsystem.entity.AirportCompany;
+import com.sakinr.airportreservationsystem.entity.Flight;
 import com.sakinr.airportreservationsystem.repository.AirportCompanyRepository;
 import com.sakinr.airportreservationsystem.service.AirportCompanyService;
+import com.sakinr.airportreservationsystem.service.AirportService;
+import com.sakinr.airportreservationsystem.service.FlightService;
+import com.sakinr.airportreservationsystem.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +18,15 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
 
     @Autowired
     AirportCompanyRepository airportCompanyRepository;
+
+    @Autowired
+    FlightService flightService;
+
+    @Autowired
+    RouteService routeService;
+
+    @Autowired
+    AirportService airportService;
 
     @Override
     public List<AirportCompany> getAllAirportCompanies() {
@@ -33,6 +46,19 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
     @Override
     public AirportCompany updateAirportCompany(AirportCompany airportCompany) {
         return airportCompanyRepository.save(airportCompany);
+    }
+
+    @Override
+    public boolean addNewFlight(Flight flight) {
+        if (flight != null && flight.getRoute() != null && flight.getAirportCompany() != null) {
+            if (routeService.getRoute(flight.getRoute().getId()).isPresent()) {
+                if (airportCompanyRepository.findById(flight.getAirportCompany().getId()).isPresent()) {
+                    flightService.addFlight(flight);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
