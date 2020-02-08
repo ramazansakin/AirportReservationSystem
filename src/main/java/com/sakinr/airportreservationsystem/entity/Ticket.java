@@ -26,6 +26,7 @@ public class Ticket implements Serializable {
     @JoinColumn(name = "passenger_id")
     private Passenger passenger;
 
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id")
     private Flight flight;
