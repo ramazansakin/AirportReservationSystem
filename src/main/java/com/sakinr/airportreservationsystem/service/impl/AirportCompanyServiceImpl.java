@@ -77,14 +77,17 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
     @Override
     public Ticket buyTicketForFlight(Integer flight_id, Integer passenger_id) {
         Optional<Passenger> passenger = passengerService.getPassenger(passenger_id);
-        if( passenger.isPresent() ){
+        if (passenger.isPresent()) {
             Optional<Flight> flight = flightService.getFlight(flight_id);
-            if(flight.isPresent()){
-                if( flight.get().getTickets().size() < flight.get().getQuota() ){
+            if (flight.isPresent()) {
+                if (flight.get().getTickets().size() < flight.get().getQuota()) {
                     Ticket newTicket = new Ticket();
                     newTicket.setFlight(flight.get());
                     newTicket.setPassenger(passenger.get());
-                    newTicket.setPrice( (flight.get().getQuota() * 10)*10 + flight.get().getPrice() );
+
+                    newTicket.setPrice(calculatePrice(flight.get().getPrice(),
+                            flight.get().getTickets().size(),
+                            flight.get().getQuota()));
 
                     ticketService.addTicket(newTicket);
                 }
@@ -92,5 +95,13 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
         }
 
         return null;
+    }
+
+    private Integer calculatePrice(Integer price, Integer size, Integer quota) {
+
+        Integer rate = (quota * 10) / 100;
+        if (size < rate)
+            return price;
+        return price + (price * ((size / rate) * 10)) / 100;
     }
 }

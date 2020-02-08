@@ -42,4 +42,6 @@ public class FlightController {
     boolean deleteFlight(@RequestParam Integer id) {
         return flightService.deleteFlight(id);
     }
+
+    
 }
