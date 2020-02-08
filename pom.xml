@@ -63,6 +63,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <finalName>airport-reservation-system</finalName>
     </build>
 
 </project>

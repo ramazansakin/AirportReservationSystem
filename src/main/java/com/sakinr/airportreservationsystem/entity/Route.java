@@ -20,11 +20,17 @@ public class Route implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {
+            CascadeType.MERGE,
+            CascadeType.ALL
+    } )
     @JoinColumn(name = "departure_airport_id", referencedColumnName = "id")
     private Airport departure_airport;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {
+            CascadeType.MERGE,
+            CascadeType.ALL
+    } )
     @JoinColumn(name = "arrival_airport_id", referencedColumnName = "id")
     private Airport arrival_airport;
 

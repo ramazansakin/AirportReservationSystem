@@ -1,7 +1,6 @@
 package com.sakinr.airportreservationsystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,9 +26,7 @@ public class AirportCompany implements Serializable {
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "airportCompany", cascade = {
-            CascadeType.ALL
-    })
+    @OneToMany(mappedBy = "airportCompany", cascade = CascadeType.ALL)
     private List<Flight> flights;
 
 }
