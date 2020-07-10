@@ -1,24 +1,20 @@
 package com.sakinr.airportreservationsystem.service.impl;
 
 import com.sakinr.airportreservationsystem.entity.Route;
+import com.sakinr.airportreservationsystem.exception.NotFoundException;
 import com.sakinr.airportreservationsystem.repository.RouteRepository;
 import com.sakinr.airportreservationsystem.service.RouteService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class RouteServiceImpl implements RouteService {
 
-    private RouteRepository routeRepository;
-
-    // constructer injection
-    @Autowired
-    public RouteServiceImpl(RouteRepository routeRepository) {
-        this.routeRepository = routeRepository;
-    }
+    private final RouteRepository routeRepository;
 
     @Override
     public List<Route> getAllRoutes() {
@@ -26,8 +22,9 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public Optional<Route> getRoute(Integer id) {
-        return routeRepository.findById(id);
+    public Route getRoute(Integer id) {
+        Optional<Route> byId = routeRepository.findById(id);
+        return byId.orElseThrow(() -> new NotFoundException("Route"));
     }
 
     @Override
@@ -42,9 +39,7 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public boolean deleteRoute(Integer id) {
-        Optional<Route> route = getRoute(id);
-        boolean present = route.isPresent();
-        routeRepository.delete(route.get());
-        return present;
+        routeRepository.delete(getRoute(id));
+        return true;
     }
 }
