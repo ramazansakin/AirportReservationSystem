@@ -1,6 +1,5 @@
 package com.sakinr.airportreservationsystem.handler;
 
-
 import com.sakinr.airportreservationsystem.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,4 +14,9 @@ public class GenericExceptionHandler {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    // If not found specific exception, use this
+    @ExceptionHandler(value = Exception.class)
+    public ResponseEntity<Object> exception(Exception exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
