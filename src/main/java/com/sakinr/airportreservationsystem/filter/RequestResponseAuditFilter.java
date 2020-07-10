@@ -31,6 +31,5 @@ public class RequestResponseAuditFilter implements Filter {
                 "Outgoing Response :{}",
                 res.getContentType()
         );
-        chain.doFilter(request, response);
     }
 }
