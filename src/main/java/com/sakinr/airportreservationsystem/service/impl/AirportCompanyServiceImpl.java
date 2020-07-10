@@ -53,7 +53,7 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
     @Override
     public boolean addNewFlight(Flight flight) {
         if (flight != null && flight.getRoute() != null && flight.getAirportCompany() != null) {
-            if (routeService.getRoute(flight.getRoute().getId()).isPresent()) {
+            if (routeService.getRoute(flight.getRoute().getId()) != null) {
                 if (airportCompanyRepository.findById(flight.getAirportCompany().getId()).isPresent()) {
                     flightService.addFlight(flight);
                     return true;
@@ -77,26 +77,25 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
 
     @Override
     public Ticket searchTicket(Integer ticket_id) {
-        if (ticketService.getTicket(ticket_id).isPresent())
-            return ticketService.getTicket(ticket_id).get();
+        if (ticketService.getTicket(ticket_id) != null)
+            return ticketService.getTicket(ticket_id);
         return Optional.of(new Ticket()).get();
     }
 
     @Override
     public Ticket buyTicketForFlight(Integer flight_id, Integer passenger_id) {
-        Optional<Passenger> passenger = passengerService.getPassenger(passenger_id);
-        if (passenger.isPresent()) {
-            Optional<Flight> flight = flightService.getFlight(flight_id);
-            if (flight.isPresent()) {
-                if (flight.get().getTickets().size() < flight.get().getQuota()) {
+        Passenger passenger = passengerService.getPassenger(passenger_id);
+        if (passenger != null) {
+            Flight flight = flightService.getFlight(flight_id);
+            if (flight != null) {
+                if (flight.getTickets().size() < flight.getQuota()) {
                     Ticket newTicket = new Ticket();
-                    newTicket.setPassenger(passenger.get());
+                    newTicket.setPassenger(passenger);
 
-                    Flight temp = flight.get();
-                    temp.setPrice(calculatePrice(flight.get().getPrice(),
-                            flight.get().getTickets().size(),
-                            flight.get().getQuota()));
-                    newTicket.setFlight(temp);
+                    flight.setPrice(calculatePrice(flight.getPrice(),
+                            flight.getTickets().size(),
+                            flight.getQuota()));
+                    newTicket.setFlight(flight);
 
                     ticketService.addTicket(newTicket);
                 }

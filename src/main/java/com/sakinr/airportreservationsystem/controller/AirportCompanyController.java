@@ -22,17 +22,17 @@ public class AirportCompanyController {
         return "Welcome to Airport Service!";
     }
 
-    @GetMapping(value = "/get")
+    @GetMapping(value = "/all")
     public List<AirportCompany> getAllAirportCompanies() {
         return airportCompanyService.getAllAirportCompanies();
     }
 
-    @PostMapping(value = "/get")
-    public AirportCompany getAirportCompany(@RequestParam(value = "id", required = true) Integer id) {
+    @PostMapping(value = "/{id}")
+    public AirportCompany getAirportCompany(@PathVariable(value = "id") Integer id) {
         return airportCompanyService.getAirportCompany(id);
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping(value = "/create")
     public void saveAirportCompany(@RequestBody AirportCompany airportCompany) {
         airportCompanyService.addAirportCompany(airportCompany);
     }
@@ -47,22 +47,22 @@ public class AirportCompanyController {
         return airportCompanyService.deleteAirportCompany(id);
     }
 
-    @PostMapping(value = "/addnewflight")
+    @PostMapping(value = "/add-flight")
     public boolean addNewFlight(@RequestBody Flight flight) {
         return airportCompanyService.addNewFlight(flight);
     }
 
-    @PostMapping(value = "/buyticket")
+    @PostMapping(value = "/buy-ticket")
     public Ticket buyTicket(@RequestParam Integer flight_id, @RequestParam Integer passenger_id) {
         return airportCompanyService.buyTicketForFlight(flight_id, passenger_id);
     }
 
-    @PostMapping(value = "/cancelticket")
+    @PostMapping(value = "/cancel-ticket")
     public boolean cancelTicket(@RequestParam Integer ticket_id) {
         return airportCompanyService.cancelTicket(ticket_id);
     }
 
-    @PostMapping(value = "/searchticket")
+    @PostMapping(value = "/search-ticket")
     public Ticket searchTicket(@RequestParam Integer ticket_id) {
         return airportCompanyService.searchTicket(ticket_id);
     }

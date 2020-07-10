@@ -4,17 +4,17 @@ import com.sakinr.airportreservationsystem.entity.Passenger;
 import com.sakinr.airportreservationsystem.exception.NotFoundException;
 import com.sakinr.airportreservationsystem.repository.PassengerRepository;
 import com.sakinr.airportreservationsystem.service.PassengerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class PassengerServiceImpl implements PassengerService {
 
-    @Autowired
-    PassengerRepository passengerRepository;
+    private final PassengerRepository passengerRepository;
 
     @Override
     public List<Passenger> getAllPassengers() {
