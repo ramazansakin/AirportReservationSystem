@@ -10,6 +10,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -25,22 +26,21 @@ public class Flight implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "code")
+    @NotNull(message = "code can not be null")
     private String code;
 
-    @Column(name = "quota")
+    @NotNull(message = "quota can not be null")
     private Integer quota;
 
-    @Column(name = "price")
+    @NotNull(message = "price can not be null")
     private Integer price;
 
-    @Column
+    @NotNull(message = "departure date can not be null")
     private String departure_date;
 
-    @Column
+    @NotNull(message = "estimated arrival date can not be null")
     private String estimated_arrival_date;
 
     @JsonManagedReference
