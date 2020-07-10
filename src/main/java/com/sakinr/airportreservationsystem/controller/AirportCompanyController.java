@@ -8,6 +8,7 @@ import com.sakinr.airportreservationsystem.service.AirportCompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -48,7 +49,7 @@ public class AirportCompanyController {
     }
 
     @PostMapping(value = "/add-flight")
-    public boolean addNewFlight(@RequestBody Flight flight) {
+    public boolean addNewFlight(@RequestBody @Valid Flight flight) {
         return airportCompanyService.addNewFlight(flight);
     }
 
