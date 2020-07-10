@@ -1,4 +1,4 @@
-
+-- Table Schemas
 DROP TABLE IF EXISTS ticket;
 
 DROP TABLE IF EXISTS flight;
@@ -27,7 +27,7 @@ CREATE TABLE passenger(
 
 CREATE TABLE airport_company(
     id INT AUTO_INCREMENT  PRIMARY KEY,
-    company_name VARCHAR(20) NOT NULL
+    name VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE route(
@@ -77,7 +77,7 @@ INSERT INTO route( departure_airport_id, arrival_airport_id ) VALUES    (1, 3),
                                                                         (5, 6);
 
 
-INSERT INTO airport_company( company_name ) VALUES  ('Türk Hava Yolları'),
+INSERT INTO airport_company( name ) VALUES          ('Türk Hava Yolları'),
                                                     ('Pegasus'),
                                                     ('AnadoluJet'),
                                                     ('SampleJet');
