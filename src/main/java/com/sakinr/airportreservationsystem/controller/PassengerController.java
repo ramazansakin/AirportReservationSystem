@@ -2,45 +2,45 @@ package com.sakinr.airportreservationsystem.controller;
 
 import com.sakinr.airportreservationsystem.entity.Passenger;
 import com.sakinr.airportreservationsystem.service.PassengerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/passenger")
 public class PassengerController {
 
-    @Autowired
-    PassengerService passengerService;
+    private final PassengerService passengerService;
 
     @GetMapping
-    String welcome() {
+    public String welcome() {
         return "Welcome to Passenger Service!";
     }
 
     @GetMapping(value = "/get")
-    List<Passenger> getAllPassengers() {
+    public List<Passenger> getAllPassengers() {
         return passengerService.getAllPassengers();
     }
 
     @PostMapping(value = "/get")
-    Passenger getPassenger(@RequestParam(value = "id", required = true) Integer id) {
-        return passengerService.getPassenger(id).get();
+    public Passenger getPassenger(@RequestParam(value = "id", required = true) Integer id) {
+        return passengerService.getPassenger(id);
     }
 
-    @PostMapping(value = "/save")
-    void savePassenger(@RequestBody Passenger passenger) {
+    @PostMapping(value = "/create")
+    public void savePassenger(@RequestBody Passenger passenger) {
         passengerService.addPassenger(passenger);
     }
 
     @PutMapping(value = "/update")
-    Passenger updatePassenger(@RequestBody Passenger passenger) {
+    public Passenger updatePassenger(@RequestBody Passenger passenger) {
         return passengerService.updatePassenger(passenger);
     }
 
     @DeleteMapping(value = "/delete")
-    boolean deletePassenger(@RequestParam Integer id) {
+    public boolean deletePassenger(@RequestParam Integer id) {
         return passengerService.deletePassenger(id);
     }
 

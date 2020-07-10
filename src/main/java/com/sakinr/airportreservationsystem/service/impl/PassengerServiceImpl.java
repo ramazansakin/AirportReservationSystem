@@ -1,6 +1,7 @@
 package com.sakinr.airportreservationsystem.service.impl;
 
 import com.sakinr.airportreservationsystem.entity.Passenger;
+import com.sakinr.airportreservationsystem.exception.NotFoundException;
 import com.sakinr.airportreservationsystem.repository.PassengerRepository;
 import com.sakinr.airportreservationsystem.service.PassengerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,9 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     @Override
-    public Optional<Passenger> getPassenger(Integer id) {
-        return passengerRepository.findById(id);
+    public Passenger getPassenger(Integer id) {
+        Optional<Passenger> byId = passengerRepository.findById(id);
+        return byId.orElseThrow(() -> new NotFoundException("Passenger"));
     }
 
     @Override
@@ -37,10 +39,8 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Override
     public boolean deletePassenger(Integer id) {
-        Optional<Passenger> pass = getPassenger(id);
-        boolean present = pass.isPresent();
-        pass.ifPresent(p -> passengerRepository.delete(p));
-        return present;
+        passengerRepository.delete(getPassenger(id));
+        return true;
     }
 
 }

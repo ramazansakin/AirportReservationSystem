@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface PassengerService {
     List<Passenger> getAllPassengers();
 
-    Optional<Passenger> getPassenger(Integer id);
+    Passenger getPassenger(Integer id);
 
     void addPassenger(@RequestBody Passenger passenger);
 
