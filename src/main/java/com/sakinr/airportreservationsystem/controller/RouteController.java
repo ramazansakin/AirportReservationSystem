@@ -19,7 +19,7 @@ public class RouteController {
         return routeService.getAllRoutes();
     }
 
-    @PostMapping(value = "/{id}")
+    @GetMapping(value = "/{id}")
     public Route getRoute(@PathVariable(value = "id") Integer id) {
         return routeService.getRoute(id);
     }

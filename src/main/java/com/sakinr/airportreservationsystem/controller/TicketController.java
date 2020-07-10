@@ -24,7 +24,7 @@ public class TicketController {
         return ticketService.getAllTickets();
     }
 
-    @PostMapping(value = "/{id}")
+    @GetMapping(value = "/{id}")
     public Ticket getTicket(@PathVariable(value = "id") Integer id) {
         return ticketService.getTicket(id);
     }

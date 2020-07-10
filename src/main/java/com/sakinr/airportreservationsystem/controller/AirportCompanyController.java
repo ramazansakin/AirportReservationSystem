@@ -28,7 +28,7 @@ public class AirportCompanyController {
         return airportCompanyService.getAllAirportCompanies();
     }
 
-    @PostMapping(value = "/{id}")
+    @GetMapping(value = "/{id}")
     public AirportCompany getAirportCompany(@PathVariable(value = "id") Integer id) {
         return airportCompanyService.getAirportCompany(id);
     }
