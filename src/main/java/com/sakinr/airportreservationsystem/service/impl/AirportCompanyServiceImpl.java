@@ -4,34 +4,30 @@ import com.sakinr.airportreservationsystem.entity.AirportCompany;
 import com.sakinr.airportreservationsystem.entity.Flight;
 import com.sakinr.airportreservationsystem.entity.Passenger;
 import com.sakinr.airportreservationsystem.entity.Ticket;
+import com.sakinr.airportreservationsystem.exception.NotFoundException;
 import com.sakinr.airportreservationsystem.repository.AirportCompanyRepository;
 import com.sakinr.airportreservationsystem.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class AirportCompanyServiceImpl implements AirportCompanyService {
 
-    @Autowired
-    AirportCompanyRepository airportCompanyRepository;
+    private final AirportCompanyRepository airportCompanyRepository;
 
-    @Autowired
-    FlightService flightService;
+    private final FlightService flightService;
 
-    @Autowired
-    RouteService routeService;
+    private final RouteService routeService;
 
-    @Autowired
-    AirportService airportService;
+    private final AirportService airportService;
 
-    @Autowired
-    TicketService ticketService;
+    private final TicketService ticketService;
 
-    @Autowired
-    PassengerService passengerService;
+    private final PassengerService passengerService;
 
     @Override
     public List<AirportCompany> getAllAirportCompanies() {
@@ -39,8 +35,9 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
     }
 
     @Override
-    public Optional<AirportCompany> getAirportCompany(Integer id) {
-        return airportCompanyRepository.findById(id);
+    public AirportCompany getAirportCompany(Integer id) {
+        Optional<AirportCompany> byId = airportCompanyRepository.findById(id);
+        return byId.orElseThrow(() -> new NotFoundException("Airport"));
     }
 
     @Override
@@ -68,10 +65,9 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
 
     @Override
     public boolean deleteAirportCompany(Integer id) {
-        Optional<AirportCompany> airportCompany = getAirportCompany(id);
-        boolean present = airportCompany.isPresent();
-        airportCompanyRepository.delete(airportCompany.get());
-        return present;
+        AirportCompany airportCompany = getAirportCompany(id);
+        airportCompanyRepository.delete(airportCompany);
+        return true;
     }
 
     @Override

@@ -5,64 +5,65 @@ import com.sakinr.airportreservationsystem.entity.AirportCompany;
 import com.sakinr.airportreservationsystem.entity.Flight;
 import com.sakinr.airportreservationsystem.entity.Ticket;
 import com.sakinr.airportreservationsystem.service.AirportCompanyService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/airportcompany")
 public class AirportCompanyController {
-    @Autowired
-    AirportCompanyService airportCompanyService;
+
+    private final AirportCompanyService airportCompanyService;
 
     @GetMapping
-    String welcome() {
+    public String welcome() {
         return "Welcome to Airport Service!";
     }
 
     @GetMapping(value = "/get")
-    List<AirportCompany> getAllAirportCompanies() {
+    public List<AirportCompany> getAllAirportCompanies() {
         return airportCompanyService.getAllAirportCompanies();
     }
 
     @PostMapping(value = "/get")
-    AirportCompany getAirportCompany(@RequestParam(value = "id", required = true) Integer id) {
-        return airportCompanyService.getAirportCompany(id).get();
+    public AirportCompany getAirportCompany(@RequestParam(value = "id", required = true) Integer id) {
+        return airportCompanyService.getAirportCompany(id);
     }
 
     @PostMapping(value = "/save")
-    void saveAirportCompany(@RequestBody AirportCompany airportCompany) {
+    public void saveAirportCompany(@RequestBody AirportCompany airportCompany) {
         airportCompanyService.addAirportCompany(airportCompany);
     }
 
     @PutMapping(value = "/update")
-    AirportCompany updateAirportCompany(@RequestBody AirportCompany airportCompany) {
+    public AirportCompany updateAirportCompany(@RequestBody AirportCompany airportCompany) {
         return airportCompanyService.updateAirportCompany(airportCompany);
     }
 
     @DeleteMapping(value = "/delete")
-    boolean deleteAirportCompany(@RequestParam Integer id) {
+    public boolean deleteAirportCompany(@RequestParam Integer id) {
         return airportCompanyService.deleteAirportCompany(id);
     }
 
     @PostMapping(value = "/addnewflight")
-    boolean addNewFlight(@RequestBody Flight flight) {
+    public boolean addNewFlight(@RequestBody Flight flight) {
         return airportCompanyService.addNewFlight(flight);
     }
 
     @PostMapping(value = "/buyticket")
-    Ticket buyTicket(@RequestParam Integer flight_id, @RequestParam Integer passenger_id) {
+    public Ticket buyTicket(@RequestParam Integer flight_id, @RequestParam Integer passenger_id) {
         return airportCompanyService.buyTicketForFlight(flight_id, passenger_id);
     }
 
     @PostMapping(value = "/cancelticket")
-    boolean cancelTicket(@RequestParam Integer ticket_id) {
+    public boolean cancelTicket(@RequestParam Integer ticket_id) {
         return airportCompanyService.cancelTicket(ticket_id);
     }
 
     @PostMapping(value = "/searchticket")
-    Ticket searchTicket(@RequestParam Integer ticket_id) {
+    public Ticket searchTicket(@RequestParam Integer ticket_id) {
         return airportCompanyService.searchTicket(ticket_id);
     }
 
