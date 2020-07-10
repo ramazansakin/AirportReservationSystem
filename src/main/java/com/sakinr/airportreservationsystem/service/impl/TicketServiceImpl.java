@@ -1,19 +1,20 @@
 package com.sakinr.airportreservationsystem.service.impl;
 
 import com.sakinr.airportreservationsystem.entity.Ticket;
+import com.sakinr.airportreservationsystem.exception.NotFoundException;
 import com.sakinr.airportreservationsystem.repository.TicketRepository;
 import com.sakinr.airportreservationsystem.service.TicketService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class TicketServiceImpl implements TicketService {
 
-    @Autowired
-    TicketRepository ticketRepository;
+    private final TicketRepository ticketRepository;
 
     @Override
     public List<Ticket> getAllTickets() {
@@ -21,8 +22,9 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Optional<Ticket> getTicket(Integer id) {
-        return ticketRepository.findById(id);
+    public Ticket getTicket(Integer id) {
+        Optional<Ticket> byId = ticketRepository.findById(id);
+        return byId.orElseThrow(() -> new NotFoundException("Ticket"));
     }
 
     @Override
@@ -37,9 +39,8 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public boolean deleteTicket(Integer id) {
-        Optional<Ticket> ticket = getTicket(id);
-        boolean isPresent = ticket.isPresent();
-        ticket.ifPresent(t -> ticketRepository.delete(t));
-        return isPresent;
+        Ticket ticket = getTicket(id);
+        ticketRepository.delete(ticket);
+        return true;
     }
 }
