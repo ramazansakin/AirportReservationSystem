@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface FlightService {
     List<Flight> getAllFlights();
 
-    Optional<Flight> getFlight(Integer id);
+    Flight getFlight(Integer id);
 
     void addFlight(@RequestBody Flight flight);
 

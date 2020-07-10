@@ -19,13 +19,13 @@ public class PassengerController {
         return "Welcome to Passenger Service!";
     }
 
-    @GetMapping(value = "/get")
+    @GetMapping(value = "/all")
     public List<Passenger> getAllPassengers() {
         return passengerService.getAllPassengers();
     }
 
-    @PostMapping(value = "/get")
-    public Passenger getPassenger(@RequestParam(value = "id", required = true) Integer id) {
+    @PostMapping(value = "/{id}")
+    public Passenger getPassenger(@PathVariable(value = "id") Integer id) {
         return passengerService.getPassenger(id);
     }
 

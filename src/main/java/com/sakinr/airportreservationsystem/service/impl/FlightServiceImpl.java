@@ -1,24 +1,20 @@
 package com.sakinr.airportreservationsystem.service.impl;
 
 import com.sakinr.airportreservationsystem.entity.Flight;
+import com.sakinr.airportreservationsystem.exception.NotFoundException;
 import com.sakinr.airportreservationsystem.repository.FlightRepository;
 import com.sakinr.airportreservationsystem.service.FlightService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class FlightServiceImpl implements FlightService {
 
-    private FlightRepository flightRepository;
-
-    // Setter injection
-    @Autowired
-    public void setFlightRepository(FlightRepository flightRepository) {
-        this.flightRepository = flightRepository;
-    }
+    private final FlightRepository flightRepository;
 
     @Override
     public List<Flight> getAllFlights() {
@@ -26,8 +22,9 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Optional<Flight> getFlight(Integer id) {
-        return flightRepository.findById(id);
+    public Flight getFlight(Integer id) {
+        Optional<Flight> byId = flightRepository.findById(id);
+        return byId.orElseThrow(() -> new NotFoundException("Flight"));
     }
 
     @Override
@@ -42,9 +39,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public boolean deleteFlight(Integer id) {
-        Optional<Flight> flight = getFlight(id);
-        boolean isPresent = flight.isPresent();
-        flight.ifPresent(t -> flightRepository.delete(t));
-        return isPresent;
+        flightRepository.delete(getFlight(id));
+        return true;
     }
 }
