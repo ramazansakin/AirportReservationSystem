@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface AirportService {
     List<Airport> getAllAirports();
 
-    Optional<Airport> getAirport(Integer id);
+    Airport getAirport(Integer id);
 
     void addAirport(@RequestBody Airport airport);
 
