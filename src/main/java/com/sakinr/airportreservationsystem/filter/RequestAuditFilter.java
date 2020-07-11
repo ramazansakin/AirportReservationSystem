@@ -6,13 +6,12 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
 @Component
 @Order(2)
-public class RequestResponseAuditFilter implements Filter {
+public class RequestAuditFilter implements Filter {
 
     @Override
     public void doFilter(
@@ -21,15 +20,11 @@ public class RequestResponseAuditFilter implements Filter {
             FilterChain chain) throws IOException, ServletException {
 
         HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
         log.info(
-                "Incoming Request  {} : {}", req.getMethod(),
+                "Incoming Request  {} : {}",
+                req.getMethod(),
                 req.getRequestURI()
         );
         chain.doFilter(request, response);
-        log.info(
-                "Outgoing Response :{}",
-                res.getContentType()
-        );
     }
 }
