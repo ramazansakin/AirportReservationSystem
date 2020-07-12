@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AirportCompanyRepository extends JpaRepository<AirportCompany, Integer> {
+
+    AirportCompany getByName(String name);
 }
