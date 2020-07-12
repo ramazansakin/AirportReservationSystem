@@ -35,10 +35,12 @@ public class Flight implements Serializable {
     private Integer price;
 
     @NotNull(message = "departure date can not be null")
-    private String departure_date;
+    @Column(name = "departure_date")
+    private String departureDate;
 
     @NotNull(message = "estimated arrival date can not be null")
-    private String estimated_arrival_date;
+    @Column(name = "estimated_arrival_date")
+    private String estimatedArrivalDate;
 
     @Embedded
     @JsonManagedReference

@@ -24,11 +24,11 @@ public class Route implements Serializable {
     @Embedded
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "departure_airport_id", referencedColumnName = "id")
-    private Airport departure_airport;
+    private Airport departureAirport;
 
     @Embedded
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "arrival_airport_id", referencedColumnName = "id")
-    private Airport arrival_airport;
+    private Airport arrivalAirport;
 
 }
