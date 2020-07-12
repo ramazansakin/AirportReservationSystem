@@ -87,18 +87,33 @@ INSERT INTO passenger( firstname, lastname, gender, age, phone ) VALUES ( 'Ali',
                                                                         ( 'Ceren', 'Telli', 'female', 26, '905554443322'),
                                                                         ( 'Dilek', 'Tutku', 'female', 14, '905554443322'),
                                                                         ( 'Cem', 'Saygın', 'male', 25, '905554443322'),
-                                                                        ( 'Semih', 'Sanlı', 'male', 25, '905554443322');
+                                                                        ( 'Semih', 'Sanlı', 'male', 25, '905554443322'),
+                                                                        ( 'Veli', 'Telli', 'female', 26, '905554443322'),
+                                                                        ( 'Kamil', 'Tutku', 'female', 14, '905554443322'),
+                                                                        ( 'Sam', 'Caroline', 'male', 25, '905554443322'),
+                                                                        ( 'Jhonny', 'Deepy', 'male', 41, '905554443322'),
+                                                                        ( 'Fatih', 'Telli', 'female', 34, '905554443322'),
+                                                                        ( 'Semra', 'Kelebek', 'female', 44, '905554443322'),
+                                                                        ( 'Mustafa', 'Saygın', 'male', 12, '905554443322'),
+                                                                        ( 'Carl', 'Geenny', 'male', 27, '905554443322');
 
 
 INSERT INTO flight( code, departure_date, estimated_arrival_date, route_id, airport_company_id, quota, price) VALUES    ( 'TCF129', '01.03.2020', '01.03.2020', 3, 1, 45, 30 ),
                                                                                                                         ( 'GDFS12', '01.03.2020', '01.03.2020', 1, 2, 50, 40 ),
-                                                                                                                        ( 'GDFS12', '01.03.2020', '01.03.2020', 4, 3, 120, 15 ),
-                                                                                                                        ( 'GDFS12', '01.03.2020', '01.03.2020', 4, 2, 2, 90 );
+                                                                                                                        ( 'ASF1223', '02.03.2020', '02.03.2020', 4, 3, 120, 15 ),
+                                                                                                                        ( 'HFDGHF12', '04.03.2020', '12.03.2020', 4, 2, 2, 90 ),
+                                                                                                                        ( 'BDASDX12', '05.02.2020', '23.03.2020', 1, 2, 50, 40 ),
+                                                                                                                        ( 'GDASFDS34', '23.06.2021', '05.03.2022', 4, 3, 120, 15 ),
+                                                                                                                        ( 'GGBAV3463', '11.03.2020', '21.03.2020', 4, 2, 2, 90 );
 
 
 INSERT INTO ticket(passenger_id, flight_id) VALUES      (1, 1),
                                                         (2, 3),
                                                         (3, 2),
                                                         (4, 2),
-                                                        (5, 4);
+                                                        (5, 4),
+                                                        (6, 3),
+                                                        (7, 2),
+                                                        (8, 5),
+                                                        (9, 6);
 
