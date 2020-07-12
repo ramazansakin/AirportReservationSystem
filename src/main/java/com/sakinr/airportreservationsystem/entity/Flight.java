@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,11 +13,10 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
+@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@DynamicUpdate
-@DynamicInsert
 @Entity
 @Table(name = "flight")
 public class Flight implements Serializable {
@@ -43,14 +40,17 @@ public class Flight implements Serializable {
     @NotNull(message = "estimated arrival date can not be null")
     private String estimated_arrival_date;
 
+    @Embedded
     @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
+    @Embedded
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "route_id", referencedColumnName = "id")
     private Route route;
 
+    @Embedded
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "airport_company_id", referencedColumnName = "id")

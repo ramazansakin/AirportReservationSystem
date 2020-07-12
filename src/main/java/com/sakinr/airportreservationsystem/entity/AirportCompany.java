@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,11 +12,10 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
+@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@DynamicUpdate
-@DynamicInsert
 @Entity
 @Table(name = "airport_company")
 public class AirportCompany implements Serializable {
@@ -30,6 +27,7 @@ public class AirportCompany implements Serializable {
     @NotNull(message = "name can not be null")
     private String name;
 
+    @Embedded
     @JsonManagedReference
     @OneToMany(mappedBy = "airportCompany", cascade = CascadeType.MERGE)
     private List<Flight> flights;

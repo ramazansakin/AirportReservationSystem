@@ -5,18 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
+@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@DynamicUpdate
-@DynamicInsert
 @Entity
 @Table(name = "ticket")
 public class Ticket implements Serializable {
@@ -26,10 +23,12 @@ public class Ticket implements Serializable {
     @Column(name = "id", updatable = false, nullable = false)
     private Integer id;
 
+    @Embedded
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "passenger_id")
     private Passenger passenger;
 
+    @Embedded
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id")
