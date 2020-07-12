@@ -1,8 +1,10 @@
 package com.sakinr.airportreservationsystem.service.impl;
 
+import com.sakinr.airportreservationsystem.entity.Airport;
 import com.sakinr.airportreservationsystem.entity.Route;
 import com.sakinr.airportreservationsystem.exception.NotFoundException;
 import com.sakinr.airportreservationsystem.repository.RouteRepository;
+import com.sakinr.airportreservationsystem.service.AirportService;
 import com.sakinr.airportreservationsystem.service.RouteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import java.util.Optional;
 public class RouteServiceImpl implements RouteService {
 
     private final RouteRepository routeRepository;
+
+    private final AirportService airportService;
 
     @Override
     public List<Route> getAllRoutes() {
@@ -42,4 +46,31 @@ public class RouteServiceImpl implements RouteService {
         routeRepository.delete(getRoute(id));
         return true;
     }
+
+    @Override
+    public List<Route> getRoutesByDepartureAirportAndArrivalAirportByCustomRepo(Integer departure_airport_id, Integer arrival_airport_id) {
+        Airport dep_airport = airportService.getAirport(departure_airport_id);
+        Airport arr_airport = airportService.getAirport(arrival_airport_id);
+        return routeRepository.getRoutesByDepartureAirportAndArrivalAirport(dep_airport.getId(), arr_airport.getId());
+    }
+
+//    @Override
+//    public List<Route> getRoutesByDepartureAirportAndArrivalAirportByDefault(Integer departure_airport_id, Integer arrival_airport_id) {
+//        Airport dep_airport = airportService.getAirport(departure_airport_id);
+//        Airport arr_airport = airportService.getAirport(arrival_airport_id);
+//        return routeRepository.findAllByDeparture_airportAndAndArrival_airport(dep_airport, arr_airport);
+//    }
+
+    @Override
+    public Route getFirstRouteByDepartureAirportByCustomRepo(Integer departure_airport_id) {
+        Airport dep_airport = airportService.getAirport(departure_airport_id);
+        return routeRepository.getFirstRouteByDepartureAirport(dep_airport.getId());
+    }
+
+//    @Override
+//    public Route getFirstRouteByDepartureAirportByDefault(Integer departure_airport_id) {
+//        Airport dep_airport = airportService.getAirport(departure_airport_id);
+//        return routeRepository.findByDeparture_airport(dep_airport);
+//    }
+
 }
