@@ -18,9 +18,9 @@ public interface RouteRepository extends JpaRepository<Route, Integer>, RouteRep
     @Query(
             "select r from Route r" +
                     " where " +
-                    " (:departure_airport is NULL or r.departure_airport = :departure_airport) " +
+                    " (:departure_airport is NULL or r.departureAirport = :departure_airport) " +
                     " AND " +
-                    " (:arrival_airport is NULL or r.arrival_airport = :arrival_airport) "
+                    " (:arrival_airport is NULL or r.arrivalAirport = :arrival_airport) "
     )
     Page<Route> findByDeparture_airportAndArrival_airport(
             Pageable pageable,
