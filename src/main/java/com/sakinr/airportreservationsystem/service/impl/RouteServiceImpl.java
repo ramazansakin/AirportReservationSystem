@@ -3,10 +3,14 @@ package com.sakinr.airportreservationsystem.service.impl;
 import com.sakinr.airportreservationsystem.entity.Airport;
 import com.sakinr.airportreservationsystem.entity.Route;
 import com.sakinr.airportreservationsystem.exception.NotFoundException;
+import com.sakinr.airportreservationsystem.model.PageableQuery;
 import com.sakinr.airportreservationsystem.repository.RouteRepository;
 import com.sakinr.airportreservationsystem.service.AirportService;
 import com.sakinr.airportreservationsystem.service.RouteService;
+import com.sakinr.airportreservationsystem.util.PageableRequestBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,12 +58,13 @@ public class RouteServiceImpl implements RouteService {
         return routeRepository.getRoutesByDepartureAirportAndArrivalAirport(dep_airport.getId(), arr_airport.getId());
     }
 
-//    @Override
-//    public List<Route> getRoutesByDepartureAirportAndArrivalAirportByDefault(Integer departure_airport_id, Integer arrival_airport_id) {
-//        Airport dep_airport = airportService.getAirport(departure_airport_id);
-//        Airport arr_airport = airportService.getAirport(arrival_airport_id);
-//        return routeRepository.findAllByDeparture_airportAndAndArrival_airport(dep_airport, arr_airport);
-//    }
+    @Override
+    public Page<Route> getRoutesByDepartureAirportAndArrivalAirportByDefault(PageableQuery query, Integer departure_airport_id, Integer arrival_airport_id) {
+        Airport dep_airport = airportService.getAirport(departure_airport_id);
+        Airport arr_airport = airportService.getAirport(arrival_airport_id);
+        PageRequest p = PageableRequestBuilder.build(query);
+        return routeRepository.findByDeparture_airportAndArrival_airport(p, dep_airport, arr_airport);
+    }
 
     @Override
     public Route getFirstRouteByDepartureAirportByCustomRepo(Integer departure_airport_id) {

@@ -1,12 +1,15 @@
 package com.sakinr.airportreservationsystem.controller;
 
 import com.sakinr.airportreservationsystem.entity.Route;
+import com.sakinr.airportreservationsystem.model.PageableQuery;
 import com.sakinr.airportreservationsystem.service.RouteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -54,14 +57,15 @@ public class RouteController {
         return new ResponseEntity<>(routes, HttpStatus.OK);
     }
 
-//    @GetMapping(value = "/v2/departure-airport/{dep_id}/arrival-airport/{arr_id}")
-//    public ResponseEntity<List<Route>> getRoutesByDepartureAndArrivalAirportV2(
-//            @RequestParam Integer dep_id,
-//            @RequestParam Integer arr_id
-//    ) {
-//        List<Route> routes = routeService.getRoutesByDepartureAirportAndArrivalAirportByDefault(dep_id, arr_id);
-//        return new ResponseEntity<>(routes, HttpStatus.OK);
-//    }
+    @PostMapping(value = "/v2/departure-airport/{dep_id}/arrival-airport/{arr_id}")
+    public ResponseEntity<Page<Route>> getRoutesByDepartureAndArrivalAirportV2(
+            @RequestBody PageableQuery query,
+            @PathVariable Integer dep_id,
+            @PathVariable Integer arr_id
+    ) {
+        Page<Route> routes = routeService.getRoutesByDepartureAirportAndArrivalAirportByDefault(query, dep_id, arr_id);
+        return new ResponseEntity<>(routes, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/v1/departure-airport/{dep_id}")
     public ResponseEntity<Route> getOneByDepartureIdV1(
@@ -73,7 +77,7 @@ public class RouteController {
 
 //    @GetMapping(value = "/v2/departure-airport/{dep_id}")
 //    public ResponseEntity<Route> getOneByDepartureIdV2(
-//            @RequestParam Integer dep_id
+//            @PathVariable Integer dep_id
 //    ) {
 //        Route route = routeService.getFirstRouteByDepartureAirportByDefault(dep_id);
 //        return new ResponseEntity<>(route, HttpStatus.OK);
