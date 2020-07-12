@@ -1,8 +1,12 @@
 package com.sakinr.airportreservationsystem.controller;
 
+import com.sakinr.airportreservationsystem.entity.Flight;
 import com.sakinr.airportreservationsystem.entity.Ticket;
+import com.sakinr.airportreservationsystem.model.PageableQuery;
+import com.sakinr.airportreservationsystem.service.FlightService;
 import com.sakinr.airportreservationsystem.service.TicketService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +17,8 @@ import java.util.List;
 public class TicketController {
 
     private final TicketService ticketService;
+
+    private final FlightService flightService;
 
     @GetMapping
     public String welcome() {
@@ -43,5 +49,15 @@ public class TicketController {
     public boolean deleteTicket(@RequestParam Integer id) {
         return ticketService.deleteTicket(id);
     }
+
+    @PostMapping(value = "/flight/{id}")
+    public Page<Ticket> getAllTicketsByFlightId(
+            @RequestBody PageableQuery query,
+            @PathVariable Integer id
+    ) {
+        Flight flight = flightService.getFlight(id);
+        return ticketService.getAllByFlightPagination(query, flight);
+    }
+
 
 }

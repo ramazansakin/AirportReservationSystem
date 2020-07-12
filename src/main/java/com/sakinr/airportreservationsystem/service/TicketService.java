@@ -1,6 +1,9 @@
 package com.sakinr.airportreservationsystem.service;
 
+import com.sakinr.airportreservationsystem.entity.Flight;
 import com.sakinr.airportreservationsystem.entity.Ticket;
+import com.sakinr.airportreservationsystem.model.PageableQuery;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -17,4 +20,6 @@ public interface TicketService {
     Ticket updateTicket(@RequestBody Ticket ticket);
 
     boolean deleteTicket(Integer id);
+
+    Page<Ticket> getAllByFlightPagination(PageableQuery pageable, Flight flight);
 }
