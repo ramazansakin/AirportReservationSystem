@@ -9,18 +9,20 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.util.HashMap;
+import java.util.Map;
 
 @ControllerAdvice
 public class GenericExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String exception(NotFoundException exception) {
-        return exception.getMessage();
+    public ResponseEntity<Map> exception(NotFoundException exception) {
+        Map<String, String> response = new HashMap<>();
+        response.put("cause", exception.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
