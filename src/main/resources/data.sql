@@ -20,9 +20,10 @@ CREATE TABLE passenger(
     id INT AUTO_INCREMENT  PRIMARY KEY,
     firstname VARCHAR(25) NOT NULL,
     lastname VARCHAR(25) NOT NULL,
-    gender VARCHAR(25),
+    gender VARCHAR(10),
     age INT DEFAULT 0,
-    phone VARCHAR(15)
+    phone VARCHAR(15),
+    email VARCHAR(25)
 );
 
 CREATE TABLE airport_company(
@@ -83,19 +84,19 @@ INSERT INTO airport_company( name ) VALUES          ('Türk Hava Yolları'),
                                                     ('SampleJet');
 
 
-INSERT INTO passenger( firstname, lastname, gender, age, phone ) VALUES ( 'Ali', 'Tek', 'male', 27, '905554443322'),
-                                                                        ( 'Ceren', 'Telli', 'female', 26, '905554443322'),
-                                                                        ( 'Dilek', 'Tutku', 'female', 14, '905554443322'),
-                                                                        ( 'Cem', 'Saygın', 'male', 25, '905554443322'),
-                                                                        ( 'Semih', 'Sanlı', 'male', 25, '905554443322'),
-                                                                        ( 'Veli', 'Telli', 'female', 26, '905554443322'),
-                                                                        ( 'Kamil', 'Tutku', 'female', 14, '905554443322'),
-                                                                        ( 'Sam', 'Caroline', 'male', 25, '905554443322'),
-                                                                        ( 'Jhonny', 'Deepy', 'male', 41, '905554443322'),
-                                                                        ( 'Fatih', 'Telli', 'female', 34, '905554443322'),
-                                                                        ( 'Semra', 'Kelebek', 'female', 44, '905554443322'),
-                                                                        ( 'Mustafa', 'Saygın', 'male', 12, '905554443322'),
-                                                                        ( 'Carl', 'Geenny', 'male', 27, '905554443322');
+INSERT INTO passenger( firstname, lastname, gender, age, phone, email ) VALUES ( 'Ali', 'Tek', 'male', 27, '905554443322', 'ali@gmail.com'),
+                                                                        ( 'Ceren', 'Telli', 'female', 26, '905554443322', null),
+                                                                        ( 'Dilek', 'Tutku', 'female', 14, '905554443322', null),
+                                                                        ( 'Cem', 'Saygın', 'male', 25, '905554443322', null),
+                                                                        ( 'Semih', 'Sanlı', 'male', 25, '905554443322', null),
+                                                                        ( 'Veli', 'Telli', 'female', 26, '905554443322', 'veli@hotmail.com'),
+                                                                        ( 'Kamil', 'Tutku', 'female', 14, '905554443322', null),
+                                                                        ( 'Sam', 'Caroline', 'male', 25, '905554443322', null),
+                                                                        ( 'Jhonny', 'Deepy', 'male', 41, '905554443322', 'jhonny@gmail.com'),
+                                                                        ( 'Fatih', 'Telli', 'female', 34, '905554443322', null),
+                                                                        ( 'Semra', 'Kelebek', 'female', 44, '905554443322', null),
+                                                                        ( 'Mustafa', 'Saygın', 'male', 12, '905554443322', 'musti@daddy.com'),
+                                                                        ( 'Carl', 'Geenny', 'male', 27, '905554443322', null);
 
 
 INSERT INTO flight( code, departure_date, estimated_arrival_date, route_id, airport_company_id, quota, price) VALUES    ( 'TCF129', '01.03.2020', '01.03.2020', 3, 1, 45, 30 ),

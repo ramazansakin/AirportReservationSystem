@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -35,5 +36,8 @@ public class Passenger implements Serializable {
 
     @NotNull(message = "phone can not be null")
     private String phone;
+
+    @Email
+    private String email;
 
 }
