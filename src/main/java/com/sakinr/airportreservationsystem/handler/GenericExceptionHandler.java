@@ -9,7 +9,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.ConstraintViolation;
@@ -19,16 +18,13 @@ import javax.validation.ConstraintViolationException;
 public class GenericExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public String exception(NotFoundException exception) {
         return exception.getMessage();
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public ValidationErrorResponse onConstraintValidationException(
+    public ResponseEntity<ValidationErrorResponse> onConstraintValidationException(
             ConstraintViolationException e) {
         ValidationErrorResponse error = new ValidationErrorResponse();
         for (ConstraintViolation violation : e.getConstraintViolations()) {
@@ -39,13 +35,11 @@ public class GenericExceptionHandler {
                     )
             );
         }
-        return error;
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    ValidationErrorResponse onMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ValidationErrorResponse> onMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         ValidationErrorResponse error = new ValidationErrorResponse();
         for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
             error.getViolations().add(
@@ -55,7 +49,7 @@ public class GenericExceptionHandler {
                     )
             );
         }
-        return error;
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     // If not found specific exception, use this
