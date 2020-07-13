@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class RouteController {
     }
 
     @GetMapping(value = "/{id}")
-    public Route getRoute(@PathVariable(value = "id") Integer id) {
+    public Route getRoute(@PathVariable @Min(1) Integer id) {
         return routeService.getRoute(id);
     }
 
@@ -40,7 +41,7 @@ public class RouteController {
     }
 
     @DeleteMapping(value = "/delete")
-    public boolean deleteRoute(@RequestParam Integer id) {
+    public boolean deleteRoute(@RequestParam @Min(1) Integer id) {
         return routeService.deleteRoute(id);
     }
 
@@ -50,8 +51,8 @@ public class RouteController {
     // but you dont have, you can create and customize one in relax
     @GetMapping(value = "/v1/departure-airport/{dep_id}/arrival-airport/{arr_id}")
     public ResponseEntity<List<Route>> getRoutesByDepartureAndArrivalAirportV1(
-            @PathVariable Integer dep_id,
-            @PathVariable Integer arr_id
+            @PathVariable @Min(1) Integer dep_id,
+            @PathVariable @Min(1) Integer arr_id
     ) {
         List<Route> routes = routeService.getRoutesByDepartureAirportAndArrivalAirportByCustomRepo(dep_id, arr_id);
         return new ResponseEntity<>(routes, HttpStatus.OK);
@@ -59,9 +60,9 @@ public class RouteController {
 
     @PostMapping(value = "/v2/departure-airport/{dep_id}/arrival-airport/{arr_id}")
     public ResponseEntity<Page<Route>> getRoutesByDepartureAndArrivalAirportV2(
-            @RequestBody PageableQuery query,
-            @PathVariable Integer dep_id,
-            @PathVariable Integer arr_id
+            @Valid @RequestBody PageableQuery query,
+            @PathVariable @Min(1) Integer dep_id,
+            @PathVariable @Min(1) Integer arr_id
     ) {
         Page<Route> routes = routeService.getRoutesByDepartureAirportAndArrivalAirportByDefault(query, dep_id, arr_id);
         return new ResponseEntity<>(routes, HttpStatus.OK);
@@ -69,7 +70,7 @@ public class RouteController {
 
     @GetMapping(value = "/v1/departure-airport/{dep_id}")
     public ResponseEntity<Route> getOneByDepartureIdV1(
-            @PathVariable Integer dep_id
+            @PathVariable @Min(1) Integer dep_id
     ) {
         Route route = routeService.getFirstRouteByDepartureAirportByCustomRepo(dep_id);
         return new ResponseEntity<>(route, HttpStatus.OK);

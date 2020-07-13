@@ -27,7 +27,7 @@ public class PassengerController {
     }
 
     @GetMapping(value = "/{id}")
-    public Passenger getPassenger(@PathVariable(value = "id") Integer id) {
+    public Passenger getPassenger(@PathVariable @Min(1) Integer id) {
         return passengerService.getPassenger(id);
     }
 
@@ -42,7 +42,7 @@ public class PassengerController {
     }
 
     @DeleteMapping(value = "/delete")
-    public boolean deletePassenger(@RequestParam Integer id) {
+    public boolean deletePassenger(@RequestParam @Min(1) Integer id) {
         return passengerService.deletePassenger(id);
     }
 

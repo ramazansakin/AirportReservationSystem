@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
@@ -29,7 +30,7 @@ public class AirportCompanyController {
     }
 
     @GetMapping(value = "/{id}")
-    public AirportCompany getAirportCompany(@PathVariable(value = "id") Integer id) {
+    public AirportCompany getAirportCompany(@PathVariable @Min(1) Integer id) {
         return airportCompanyService.getAirportCompany(id);
     }
 
@@ -44,7 +45,7 @@ public class AirportCompanyController {
     }
 
     @DeleteMapping(value = "/delete")
-    public boolean deleteAirportCompany(@RequestParam Integer id) {
+    public boolean deleteAirportCompany(@RequestParam @Min(1) Integer id) {
         return airportCompanyService.deleteAirportCompany(id);
     }
 
@@ -54,17 +55,17 @@ public class AirportCompanyController {
     }
 
     @PostMapping(value = "/buy-ticket")
-    public Ticket buyTicket(@RequestParam Integer flight_id, @RequestParam Integer passenger_id) {
+    public Ticket buyTicket(@RequestParam @Min(1) Integer flight_id, @RequestParam @Min(1) Integer passenger_id) {
         return airportCompanyService.buyTicketForFlight(flight_id, passenger_id);
     }
 
     @PostMapping(value = "/cancel-ticket")
-    public boolean cancelTicket(@RequestParam Integer ticket_id) {
+    public boolean cancelTicket(@RequestParam @Min(1) Integer ticket_id) {
         return airportCompanyService.cancelTicket(ticket_id);
     }
 
     @PostMapping(value = "/search-ticket")
-    public Ticket searchTicket(@RequestParam Integer ticket_id) {
+    public Ticket searchTicket(@RequestParam @Min(1) Integer ticket_id) {
         return airportCompanyService.searchTicket(ticket_id);
     }
 

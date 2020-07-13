@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class TicketController {
     }
 
     @GetMapping(value = "/{id}")
-    public Ticket getTicket(@PathVariable(value = "id") Integer id) {
+    public Ticket getTicket(@PathVariable @Min(1) Integer id) {
         return ticketService.getTicket(id);
     }
 
@@ -47,14 +48,14 @@ public class TicketController {
     }
 
     @DeleteMapping(value = "/delete")
-    public boolean deleteTicket(@RequestParam Integer id) {
+    public boolean deleteTicket(@RequestParam @Min(1) Integer id) {
         return ticketService.deleteTicket(id);
     }
 
     @PostMapping(value = "/flight/{id}")
     public Page<Ticket> getAllTicketsByFlightId(
             @Valid @RequestBody PageableQuery query,
-            @PathVariable Integer id
+            @PathVariable @Min(1) Integer id
     ) {
         Flight flight = flightService.getFlight(id);
         return ticketService.getAllByFlightPagination(query, flight);

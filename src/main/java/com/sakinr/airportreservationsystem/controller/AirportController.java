@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,7 @@ public class AirportController {
     }
 
     @GetMapping(value = "/{id}")
-    public Airport getAirport(@PathVariable(value = "id") Integer id) {
+    public Airport getAirport(@PathVariable @Min(1) Integer id) {
         return airportService.getAirport(id);
     }
 
@@ -41,7 +42,7 @@ public class AirportController {
     }
 
     @DeleteMapping(value = "/delete")
-    public boolean deleteAirport(@RequestParam Integer id) {
+    public boolean deleteAirport(@RequestParam @Min(1) Integer id) {
         return airportService.deleteAirport(id);
     }
 
