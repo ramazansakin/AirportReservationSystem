@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
-@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -23,12 +22,10 @@ public class Ticket implements Serializable {
     @Column(name = "id", updatable = false, nullable = false)
     private Integer id;
 
-    @Embedded
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "passenger_id")
     private Passenger passenger;
 
-    @Embedded
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id")

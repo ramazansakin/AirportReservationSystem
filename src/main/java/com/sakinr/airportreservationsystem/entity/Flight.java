@@ -13,7 +13,6 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -42,17 +41,15 @@ public class Flight implements Serializable {
     @Column(name = "estimated_arrival_date")
     private String estimatedArrivalDate;
 
-    @Embedded
     @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
-    @Embedded
+    @NotNull(message = "route can not be null")
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "route_id", referencedColumnName = "id")
     private Route route;
 
-    @Embedded
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "airport_company_id", referencedColumnName = "id")

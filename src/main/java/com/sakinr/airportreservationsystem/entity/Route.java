@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
-@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -21,12 +20,10 @@ public class Route implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Embedded
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "departure_airport_id", referencedColumnName = "id")
     private Airport departureAirport;
 
-    @Embedded
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "arrival_airport_id", referencedColumnName = "id")
     private Airport arrivalAirport;

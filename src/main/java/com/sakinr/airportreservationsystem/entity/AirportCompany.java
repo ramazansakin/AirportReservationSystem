@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -27,7 +26,6 @@ public class AirportCompany implements Serializable {
     @NotNull(message = "name can not be null")
     private String name;
 
-    @Embedded
     @JsonManagedReference
     @OneToMany(mappedBy = "airportCompany", cascade = CascadeType.MERGE)
     private List<Flight> flights;
