@@ -19,14 +19,16 @@ import javax.validation.ConstraintViolationException;
 public class GenericExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Object> exception(NotFoundException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public String exception(NotFoundException exception) {
+        return exception.getMessage();
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    ValidationErrorResponse onConstraintValidationException(
+    public ValidationErrorResponse onConstraintValidationException(
             ConstraintViolationException e) {
         ValidationErrorResponse error = new ValidationErrorResponse();
         for (ConstraintViolation violation : e.getConstraintViolations()) {
