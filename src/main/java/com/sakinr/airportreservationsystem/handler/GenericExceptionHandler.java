@@ -20,6 +20,7 @@ public class GenericExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Map> exception(NotFoundException exception) {
+        // You can define any other class for better visualization for response
         Map<String, String> response = new HashMap<>();
         response.put("cause", exception.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
