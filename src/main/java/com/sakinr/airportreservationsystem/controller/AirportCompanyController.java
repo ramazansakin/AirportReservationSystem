@@ -34,7 +34,7 @@ public class AirportCompanyController {
     }
 
     @PostMapping(value = "/create")
-    public void saveAirportCompany(@RequestBody AirportCompany airportCompany) {
+    public void saveAirportCompany(@Valid @RequestBody AirportCompany airportCompany) {
         airportCompanyService.addAirportCompany(airportCompany);
     }
 
@@ -49,7 +49,7 @@ public class AirportCompanyController {
     }
 
     @PostMapping(value = "/add-flight")
-    public boolean addNewFlight(@RequestBody @Valid Flight flight) {
+    public boolean addNewFlight(@Valid @RequestBody Flight flight) {
         return airportCompanyService.addNewFlight(flight);
     }
 

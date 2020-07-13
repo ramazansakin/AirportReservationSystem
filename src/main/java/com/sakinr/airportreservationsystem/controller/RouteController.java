@@ -30,12 +30,12 @@ public class RouteController {
     }
 
     @PostMapping(value = "/create")
-    public void saveRoute(@RequestBody Route route) {
+    public void saveRoute(@Valid @RequestBody Route route) {
         routeService.addRoute(route);
     }
 
     @PutMapping(value = "/update")
-    public Route updateRoute(@RequestBody Route route) {
+    public Route updateRoute(@Valid @RequestBody Route route) {
         return routeService.updateRoute(route);
     }
 

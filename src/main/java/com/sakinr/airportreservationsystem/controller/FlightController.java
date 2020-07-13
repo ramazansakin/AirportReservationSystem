@@ -31,12 +31,12 @@ public class FlightController {
     }
 
     @PostMapping(value = "/create")
-    public void saveFlight(@RequestBody @Valid Flight flight) {
+    public void saveFlight(@Valid @RequestBody Flight flight) {
         flightService.addFlight(flight);
     }
 
     @PutMapping(value = "/update")
-    public Flight updateFlight(@RequestBody Flight flight) {
+    public Flight updateFlight(@Valid @RequestBody Flight flight) {
         return flightService.updateFlight(flight);
     }
 

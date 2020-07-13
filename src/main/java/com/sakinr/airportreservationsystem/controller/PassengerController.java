@@ -5,6 +5,8 @@ import com.sakinr.airportreservationsystem.service.PassengerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
@@ -30,12 +32,12 @@ public class PassengerController {
     }
 
     @PostMapping(value = "/create")
-    public void savePassenger(@RequestBody Passenger passenger) {
+    public void savePassenger(@Valid @RequestBody Passenger passenger) {
         passengerService.addPassenger(passenger);
     }
 
     @PutMapping(value = "/update")
-    public Passenger updatePassenger(@RequestBody Passenger passenger) {
+    public Passenger updatePassenger(@Valid @RequestBody Passenger passenger) {
         return passengerService.updatePassenger(passenger);
     }
 

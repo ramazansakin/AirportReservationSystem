@@ -21,7 +21,7 @@ public class Airport implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull(message = "name can not be null")
+    @NotNull(message = "{validation.messages.airport.name}")
     private String name;
 
 }

@@ -5,6 +5,7 @@ import com.sakinr.airportreservationsystem.service.AirportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -30,12 +31,12 @@ public class AirportController {
     }
 
     @PostMapping(value = "/create")
-    public void saveAirport(@RequestBody Airport airport) {
+    public void saveAirport(@Valid @RequestBody Airport airport) {
         airportService.addAirport(airport);
     }
 
     @PutMapping(value = "/update")
-    public Airport updateAirport(@RequestBody Airport airport) {
+    public Airport updateAirport(@Valid @RequestBody Airport airport) {
         return airportService.updateAirport(airport);
     }
 

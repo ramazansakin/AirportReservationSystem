@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -36,12 +37,12 @@ public class TicketController {
     }
 
     @PostMapping(value = "/create")
-    public void saveTicket(@RequestBody Ticket ticket) {
+    public void saveTicket(@Valid @RequestBody Ticket ticket) {
         ticketService.addTicket(ticket);
     }
 
     @PutMapping(value = "/update")
-    public Ticket updateTicket(@RequestBody Ticket ticket) {
+    public Ticket updateTicket(@Valid @RequestBody Ticket ticket) {
         return ticketService.updateTicket(ticket);
     }
 
@@ -52,7 +53,7 @@ public class TicketController {
 
     @PostMapping(value = "/flight/{id}")
     public Page<Ticket> getAllTicketsByFlightId(
-            @RequestBody PageableQuery query,
+            @Valid @RequestBody PageableQuery query,
             @PathVariable Integer id
     ) {
         Flight flight = flightService.getFlight(id);
