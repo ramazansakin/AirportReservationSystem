@@ -27,6 +27,6 @@ public interface RouteService {
 
     Route getFirstRouteByDepartureAirportByCustomRepo(Integer departure_airport_id);
 
-//    Route getFirstRouteByDepartureAirportByDefault(Integer departure_airport_id);
+    Route getFirstRouteByDepartureAirportByDefault(Integer departure_airport_id);
 
 }

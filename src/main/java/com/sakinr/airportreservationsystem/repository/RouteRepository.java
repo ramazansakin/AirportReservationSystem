@@ -40,6 +40,6 @@ public interface RouteRepository extends JpaRepository<Route, Integer>, RouteRep
         return "Hello from routes repo interface";
     }
 
-//    Route findByDeparture_airport(Airport departure_airport);
+    Route findByDepartureAirport(Airport departure_airport);
 
 }

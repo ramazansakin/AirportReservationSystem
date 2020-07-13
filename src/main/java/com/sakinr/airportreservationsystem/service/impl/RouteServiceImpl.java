@@ -72,10 +72,10 @@ public class RouteServiceImpl implements RouteService {
         return routeRepository.getFirstRouteByDepartureAirport(dep_airport.getId());
     }
 
-//    @Override
-//    public Route getFirstRouteByDepartureAirportByDefault(Integer departure_airport_id) {
-//        Airport dep_airport = airportService.getAirport(departure_airport_id);
-//        return routeRepository.findByDeparture_airport(dep_airport);
-//    }
+    @Override
+    public Route getFirstRouteByDepartureAirportByDefault(Integer departure_airport_id) {
+        Airport dep_airport = airportService.getAirport(departure_airport_id);
+        return routeRepository.findByDepartureAirport(dep_airport);
+    }
 
 }

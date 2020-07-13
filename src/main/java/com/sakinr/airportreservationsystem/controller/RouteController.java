@@ -79,13 +79,13 @@ public class RouteController {
         return new ResponseEntity<>(route, HttpStatus.OK);
     }
 
-//    @GetMapping(value = "/v2/departure-airport/{dep_id}")
-//    public ResponseEntity<Route> getOneByDepartureIdV2(
-//            @PathVariable Integer dep_id
-//    ) {
-//        Route route = routeService.getFirstRouteByDepartureAirportByDefault(dep_id);
-//        return new ResponseEntity<>(route, HttpStatus.OK);
-//    }
+    @GetMapping(value = "/v2/departure-airport/{dep_id}")
+    public ResponseEntity<Route> getOneByDepartureIdV2(
+            @PathVariable @Min(1) Integer dep_id
+    ) {
+        Route route = routeService.getFirstRouteByDepartureAirportByDefault(dep_id);
+        return new ResponseEntity<>(route, HttpStatus.OK);
+    }
 
 }
 
