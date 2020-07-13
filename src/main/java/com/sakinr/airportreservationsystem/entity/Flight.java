@@ -50,6 +50,7 @@ public class Flight implements Serializable {
     @JoinColumn(name = "route_id", referencedColumnName = "id")
     private Route route;
 
+    @NotNull(message = "airport can not be null")
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "airport_company_id", referencedColumnName = "id")

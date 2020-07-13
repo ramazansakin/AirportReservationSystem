@@ -5,6 +5,7 @@ import com.sakinr.airportreservationsystem.service.FlightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -30,7 +31,7 @@ public class FlightController {
     }
 
     @PostMapping(value = "/create")
-    public void saveFlight(@RequestBody Flight flight) {
+    public void saveFlight(@RequestBody @Valid Flight flight) {
         flightService.addFlight(flight);
     }
 
