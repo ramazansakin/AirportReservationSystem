@@ -3,12 +3,15 @@ package com.sakinr.airportreservationsystem.controller;
 import com.sakinr.airportreservationsystem.entity.Airport;
 import com.sakinr.airportreservationsystem.service.AirportService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
 
+
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/airport")

@@ -7,12 +7,15 @@ import com.sakinr.airportreservationsystem.service.FlightService;
 import com.sakinr.airportreservationsystem.service.TicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
 
+
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/ticket")
