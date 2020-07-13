@@ -52,16 +52,10 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
 
     @Override
     public boolean addNewFlight(Flight flight) {
-        Flight flightById = flightService.getFlight(flight.getId());
-        if (flightById.getRoute() != null && flightById.getAirportCompany() != null) {
-            if (routeService.getRoute(flightById.getRoute().getId()) != null) {
-                if (airportCompanyRepository.findById(flightById.getAirportCompany().getId()).isPresent()) {
-                    flightService.addFlight(flightById);
-                    return true;
-                }
-            }
-        }
-        return false;
+        airportService.getAirport(flight.getAirportCompany().getId());
+        routeService.getRoute(flight.getRoute().getId());
+        flightService.addFlight(flight);
+        return true;
     }
 
     @Override
