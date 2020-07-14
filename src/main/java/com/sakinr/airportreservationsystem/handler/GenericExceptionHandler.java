@@ -1,6 +1,7 @@
 package com.sakinr.airportreservationsystem.handler;
 
 import com.sakinr.airportreservationsystem.exception.NotFoundException;
+import com.sakinr.airportreservationsystem.exception.QuotaIsFullException;
 import com.sakinr.airportreservationsystem.model.ValidationErrorResponse;
 import com.sakinr.airportreservationsystem.model.Violation;
 import org.springframework.http.HttpStatus;
@@ -55,8 +56,13 @@ public class GenericExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(QuotaIsFullException.class)
+    public ResponseEntity<Object> onQuotaIsFullException(QuotaIsFullException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
     // If not found specific exception, use this
-    @ExceptionHandler(value = Exception.class)
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> exception(Exception exception) {
         return new ResponseEntity<>("Generic Exception details : " + exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }

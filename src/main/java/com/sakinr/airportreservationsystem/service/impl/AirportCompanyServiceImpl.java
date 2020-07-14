@@ -5,6 +5,7 @@ import com.sakinr.airportreservationsystem.entity.Flight;
 import com.sakinr.airportreservationsystem.entity.Passenger;
 import com.sakinr.airportreservationsystem.entity.Ticket;
 import com.sakinr.airportreservationsystem.exception.NotFoundException;
+import com.sakinr.airportreservationsystem.exception.QuotaIsFullException;
 import com.sakinr.airportreservationsystem.repository.AirportCompanyRepository;
 import com.sakinr.airportreservationsystem.service.*;
 import lombok.RequiredArgsConstructor;
@@ -82,23 +83,22 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
     @Override
     public Ticket buyTicketForFlight(Integer flight_id, Integer passenger_id) {
         Passenger passenger = passengerService.getPassenger(passenger_id);
-        if (passenger != null) {
-            Flight flight = flightService.getFlight(flight_id);
-            if (flight != null) {
-                if (flight.getTickets().size() < flight.getQuota()) {
-                    Ticket newTicket = new Ticket();
-                    newTicket.setPassenger(passenger);
+        Flight flight = flightService.getFlight(flight_id);
 
-                    flight.setPrice(calculatePrice(flight.getPrice(),
-                            flight.getTickets().size(),
-                            flight.getQuota()));
-                    newTicket.setFlight(flight);
+        if (flight.getTickets().size() < flight.getQuota()) {
+            Ticket newTicket = new Ticket();
+            newTicket.setPassenger(passenger);
+            newTicket.setFlight(flight);
 
-                    ticketService.addTicket(newTicket);
-                }
-            }
+            flight.setPrice(calculatePrice(flight.getPrice(),
+                    flight.getTickets().size(),
+                    flight.getQuota()));
+
+            ticketService.addTicket(newTicket);
+            flightService.updateFlight(flight);
         }
-        return Optional.of(new Ticket()).get();
+
+        throw new QuotaIsFullException(flight.getCode());
     }
 
     private Integer calculatePrice(Integer price, Integer size, Integer quota) {
