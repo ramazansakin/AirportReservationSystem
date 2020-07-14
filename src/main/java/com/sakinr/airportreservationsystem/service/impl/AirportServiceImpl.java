@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -89,6 +90,16 @@ public class AirportServiceImpl implements AirportService {
 
         // Gets combined Address String
         return function.apply(airport1, airport2);
+    }
+
+    private void consumeAirportAddresses(Integer airport_id) {
+        Airport airport = airportRepository.getOne(airport_id);
+
+        Consumer<Airport> airportConsumer = (air) -> {
+            air.getAddresses().forEach(System.out::println);
+        };
+
+        airportConsumer.accept(airport);
     }
 
 
