@@ -12,8 +12,8 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = FlightIDExistingValidator.class)
 
 public @interface FlightIDExists {
-    String message() default "{validation.messages.flightidexists}";
-    
+    String message() default "{validation.messages.flight.id.exists}";
+
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};

@@ -96,4 +96,12 @@ public class PassengerServiceImpl implements PassengerService {
                 .count();
     }
 
+    private List<String> getPassengerListAsFirstNameAndLastName() {
+        List<Passenger> allPassengers = getAllPassengers();
+        return allPassengers.stream()
+                .map(p -> p.getFirstname() + " " + p.getLastname())
+                .collect(Collectors.toList());
+    }
+
+
 }
