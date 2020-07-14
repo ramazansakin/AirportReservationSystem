@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -76,6 +77,18 @@ public class AirportServiceImpl implements AirportService {
                 .reduce("", (s1, s2) -> s1 + s2);
 
         System.out.println("Reduced address List : " + reducedAddressList);
+    }
+
+    private String getCombinedAddressOfBoth(Airport airport1, Airport airport2) {
+
+        // Airports check here!
+        // I assume that there is nothing bad here :) and enjoy with BiFunction sample
+        BiFunction<Airport, Airport, String> function = (a1, a2) -> a1.getAddresses().get(0).getCityName() + "-" + a1.getAddresses().get(0).getStreetCode()
+                + " ------- " +
+                a2.getAddresses().get(0).getCityName() + "-" + a2.getAddresses().get(0).getStreetCode();
+
+        // Gets combined Address String
+        return function.apply(airport1, airport2);
     }
 
 
