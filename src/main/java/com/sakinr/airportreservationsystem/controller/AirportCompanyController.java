@@ -2,7 +2,6 @@ package com.sakinr.airportreservationsystem.controller;
 
 
 import com.sakinr.airportreservationsystem.entity.AirportCompany;
-import com.sakinr.airportreservationsystem.entity.Flight;
 import com.sakinr.airportreservationsystem.entity.Ticket;
 import com.sakinr.airportreservationsystem.service.AirportCompanyService;
 import lombok.RequiredArgsConstructor;
@@ -53,8 +52,9 @@ public class AirportCompanyController {
     }
 
     @PostMapping(value = "/add-flight")
-    public boolean addNewFlight(@RequestParam Integer flight_id) {
-        return airportCompanyService.addNewFlight(flight_id);
+    public boolean addNewFlight(@RequestParam @Min(1) Integer organization_id,
+                                @RequestParam @Min(1) Integer flight_id) {
+        return airportCompanyService.addNewFlight(organization_id, flight_id);
     }
 
     @PostMapping(value = "/buy-ticket")
