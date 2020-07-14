@@ -49,6 +49,7 @@ public class AirportServiceImpl implements AirportService {
     }
 
     // java8 playground again :)
+    // ----------------------------------------------------------------------------------
     private List<Address> getAddressCityStartsWith(String prefix) {
         List<Airport> allAirports = getAllAirports();
         return allAirports.stream()
@@ -81,7 +82,6 @@ public class AirportServiceImpl implements AirportService {
     }
 
     private String getCombinedAddressOfBoth(Airport airport1, Airport airport2) {
-
         // Airports check here!
         // I assume that there is nothing bad here :) and enjoy with BiFunction sample
         BiFunction<Airport, Airport, String> function = (a1, a2) -> a1.getAddresses().get(0).getCityName() + "-" + a1.getAddresses().get(0).getStreetCode()
@@ -95,6 +95,7 @@ public class AirportServiceImpl implements AirportService {
     private void consumeAirportAddresses(Integer airport_id) {
         Airport airport = airportRepository.getOne(airport_id);
 
+        // Defining a consumer for airport address list
         Consumer<Airport> airportConsumer = (air) -> {
             air.getAddresses().forEach(System.out::println);
         };
