@@ -63,5 +63,30 @@ public class PassengerServiceImpl implements PassengerService {
                 .collect(Collectors.toList());
     }
 
+    private Passenger getTheOldestMalePassengerAndLowerCaseFirstLast() {
+        List<Passenger> allPassengers = getAllPassengers();
+        return allPassengers.stream()
+                .max(Comparator.comparing(Passenger::getAge))
+                .filter(p -> p.getGender().equals("male"))
+                .orElseThrow(() -> new NotFoundException("No matching passenger"));
+    }
+
+    private Boolean isAnyPassengerLastNameStartsWithCharAndFemale(String prefix) {
+        List<Passenger> allPassengers = getAllPassengers();
+        return allPassengers.stream()
+                .anyMatch(p -> p.getLastname().startsWith(prefix) && p.getGender().equals("female"));
+    }
+
+    private Boolean isAllPassengerFemaleAndAgeBetween(Integer minAge, Integer maxAge) {
+        List<Passenger> allPassengers = getAllPassengers();
+        return allPassengers.stream()
+                .allMatch(p -> p.getGender().equals("female") && (p.getAge() > minAge && p.getAge() < maxAge));
+    }
+
+    private Boolean isNonePassengerFirstNameAndPhoneStartsWith(String firstName, String phonePrefix) {
+        List<Passenger> allPassengers = getAllPassengers();
+        return allPassengers.stream()
+                .noneMatch(p -> p.getFirstname().equals(firstName) && p.getPhone().startsWith(phonePrefix));
+    }
 
 }
