@@ -1,5 +1,6 @@
 package com.sakinr.airportreservationsystem.entity;
 
+import com.sakinr.airportreservationsystem.model.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,5 +25,9 @@ public class Airport implements Serializable {
 
     @NotNull(message = "{validation.messages.airport.name}")
     private String name;
+
+    // Transient tells "do not persist this field"
+    @Transient
+    private List<Address> addresses;
 
 }
