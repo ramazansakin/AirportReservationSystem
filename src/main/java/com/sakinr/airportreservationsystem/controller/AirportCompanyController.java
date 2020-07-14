@@ -53,8 +53,8 @@ public class AirportCompanyController {
     }
 
     @PostMapping(value = "/add-flight")
-    public boolean addNewFlight(@Valid @RequestBody Flight flight) {
-        return airportCompanyService.addNewFlight(flight);
+    public boolean addNewFlight(@RequestParam Integer flight_id) {
+        return airportCompanyService.addNewFlight(flight_id);
     }
 
     @PostMapping(value = "/buy-ticket")

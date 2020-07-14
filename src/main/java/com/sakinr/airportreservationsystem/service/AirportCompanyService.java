@@ -18,7 +18,7 @@ public interface AirportCompanyService {
 
     boolean deleteAirportCompany(Integer id);
 
-    boolean addNewFlight(Flight flight);
+    boolean addNewFlight(Integer airport_company_id, Integer flight_id);
 
     Ticket buyTicketForFlight(Integer flight_id, Integer passenger_id);
 
