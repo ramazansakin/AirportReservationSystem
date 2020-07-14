@@ -17,4 +17,8 @@ public interface PassengerService {
 
     boolean deletePassenger(Integer id);
 
+    List<Passenger> getPassengersNameStartsWith(String prefix);
+
+    List<Passenger> getPassengersSortedViaLastNameAsUpperCase();
+
 }
