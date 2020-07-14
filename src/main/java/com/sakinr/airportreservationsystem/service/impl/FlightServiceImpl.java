@@ -2,6 +2,7 @@ package com.sakinr.airportreservationsystem.service.impl;
 
 import com.sakinr.airportreservationsystem.entity.Flight;
 import com.sakinr.airportreservationsystem.exception.NotFoundException;
+import com.sakinr.airportreservationsystem.functionalint.Printable;
 import com.sakinr.airportreservationsystem.repository.FlightRepository;
 import com.sakinr.airportreservationsystem.service.FlightService;
 import lombok.RequiredArgsConstructor;
@@ -42,4 +43,25 @@ public class FlightServiceImpl implements FlightService {
         flightRepository.delete(getFlight(id));
         return true;
     }
+
+    private void printFlightInfo(Integer flight_id) {
+        Flight flight = flightRepository.getOne(flight_id);
+
+        Printable printable = (object) -> {
+            StringBuilder sb = new StringBuilder();
+            Flight tempFlight = (Flight) object;
+            sb.append("Flight Info : ")
+                    .append("Flight Code  : ")
+                    .append(tempFlight.getCode())
+                    .append("Flight Price : ")
+                    .append(tempFlight.getPrice())
+                    .append("Flight Airport Company : ")
+                    .append(tempFlight.getAirportCompany().getName());
+
+            System.out.println(sb.toString());
+        };
+
+        printable.print(flight);
+    }
+
 }
