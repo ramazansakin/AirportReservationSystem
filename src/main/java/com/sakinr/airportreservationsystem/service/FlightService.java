@@ -3,6 +3,7 @@ package com.sakinr.airportreservationsystem.service;
 import com.sakinr.airportreservationsystem.entity.Flight;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,5 +17,9 @@ public interface FlightService {
     Flight updateFlight(@RequestBody Flight flight);
 
     boolean deleteFlight(Integer id);
+
+    List<Flight> getAllFlightsDepartureDateBetween(Date start, Date end);
+
+    Flight getFlightByCode(String code);
 
 }

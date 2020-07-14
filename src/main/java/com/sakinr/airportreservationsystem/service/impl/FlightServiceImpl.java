@@ -8,6 +8,7 @@ import com.sakinr.airportreservationsystem.service.FlightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class FlightServiceImpl implements FlightService {
 
     private final FlightRepository flightRepository;
-
+    
     @Override
     public List<Flight> getAllFlights() {
         return flightRepository.findAll();
@@ -44,7 +45,7 @@ public class FlightServiceImpl implements FlightService {
         return true;
     }
 
-    private void printFlightInfo(Integer flight_id) {
+    private void printFlightBasicInfos(Integer flight_id) {
         Flight flight = flightRepository.getOne(flight_id);
 
         Printable printable = (object) -> {
@@ -60,8 +61,18 @@ public class FlightServiceImpl implements FlightService {
 
             System.out.println(sb.toString());
         };
-
         printable.print(flight);
     }
+
+    @Override
+    public List<Flight> getAllFlightsDepartureDateBetween(Date start, Date end) {
+        return flightRepository.getAllByDepartureDateBetween(start, end);
+    }
+
+    @Override
+    public Flight getFlightByCode(String code) {
+        return flightRepository.getByCode(code);
+    }
+
 
 }

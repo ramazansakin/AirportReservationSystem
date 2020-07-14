@@ -3,11 +3,13 @@ package com.sakinr.airportreservationsystem.controller;
 import com.sakinr.airportreservationsystem.entity.Flight;
 import com.sakinr.airportreservationsystem.service.FlightService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.util.Date;
 import java.util.List;
 
 
@@ -47,6 +49,19 @@ public class FlightController {
     @DeleteMapping(value = "/delete")
     public boolean deleteFlight(@RequestParam @Min(1) Integer id) {
         return flightService.deleteFlight(id);
+    }
+
+    @GetMapping(value = "/all/departure-data-between")
+    public List<Flight> getAllFlightsDepartureDateBetween(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
+                                                          @Valid @DateTimeFormat(pattern = "yyyy-MM-dd") Date end) {
+        return flightService.getAllFlightsDepartureDateBetween(start, end);
+    }
+
+    // We can write an annotation and validator to check
+    // whether this is a valid code or not
+    @GetMapping("/by-code/{code}")
+    public Flight getFlightByCode(@PathVariable String code) {
+        return flightService.getFlightByCode(code);
     }
 
 }
