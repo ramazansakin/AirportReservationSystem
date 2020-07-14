@@ -2,6 +2,7 @@ package com.sakinr.airportreservationsystem.controller;
 
 
 import com.sakinr.airportreservationsystem.entity.AirportCompany;
+import com.sakinr.airportreservationsystem.entity.Flight;
 import com.sakinr.airportreservationsystem.entity.Ticket;
 import com.sakinr.airportreservationsystem.service.AirportCompanyService;
 import lombok.RequiredArgsConstructor;
@@ -70,6 +71,11 @@ public class AirportCompanyController {
     @PostMapping(value = "/search-ticket")
     public Ticket searchTicket(@RequestParam @Min(1) Integer ticket_id) {
         return airportCompanyService.searchTicket(ticket_id);
+    }
+
+    @GetMapping("/by-airport-company/{airport_company_id}")
+    public List<Flight> getAllFlightByAirportCompany(@PathVariable Integer airport_company_id) {
+        return airportCompanyService.getAllFlightByAirportCompany(airport_company_id);
     }
 
 }

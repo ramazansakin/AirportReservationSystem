@@ -108,4 +108,11 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
 
         throw new QuotaIsFullException(flight.getCode());
     }
+
+    @Override
+    public List<Flight> getAllFlightByAirportCompany(Integer airport_company_id) {
+        AirportCompany airportCompany = getAirportCompany(airport_company_id);
+        return airportCompany.getFlights();
+    }
+
 }

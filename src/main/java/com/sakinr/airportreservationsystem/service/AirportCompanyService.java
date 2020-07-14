@@ -5,7 +5,6 @@ import com.sakinr.airportreservationsystem.entity.Flight;
 import com.sakinr.airportreservationsystem.entity.Ticket;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface AirportCompanyService {
     List<AirportCompany> getAllAirportCompanies();
@@ -25,4 +24,6 @@ public interface AirportCompanyService {
     boolean cancelTicket(Integer ticket_id);
 
     Ticket searchTicket(Integer ticket_id);
+
+    List<Flight> getAllFlightByAirportCompany(Integer airport_company_id);
 }
