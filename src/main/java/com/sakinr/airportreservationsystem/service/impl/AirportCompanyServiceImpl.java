@@ -90,21 +90,16 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
             newTicket.setPassenger(passenger);
             newTicket.setFlight(flight);
 
-            flight.setPrice(calculatePrice(flight.getPrice(),
-                    flight.getTickets().size(),
-                    flight.getQuota()));
-
             ticketService.addTicket(newTicket);
-            flightService.updateFlight(flight);
+
+            int rate = (flight.getQuota() * 10) / 100;
+            if (flight.getTickets().size() > rate) {
+                int newPrice = flight.getPrice() + (flight.getPrice() * ((flight.getTickets().size() / rate) * 10)) / 100;
+                flight.setPrice(newPrice);
+                flightService.updateFlight(flight);
+            }
         }
 
         throw new QuotaIsFullException(flight.getCode());
-    }
-
-    private Integer calculatePrice(Integer price, Integer size, Integer quota) {
-        Integer rate = (quota * 10) / 100;
-        if (size < rate)
-            return price;
-        return price + (price * ((size / rate) * 10)) / 100;
     }
 }
