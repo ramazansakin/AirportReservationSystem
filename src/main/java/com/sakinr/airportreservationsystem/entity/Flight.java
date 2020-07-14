@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -35,11 +36,11 @@ public class Flight implements Serializable {
 
     @NotNull(message = "departure date can not be null")
     @Column(name = "departure_date")
-    private String departureDate;
+    private Date departureDate;
 
     @NotNull(message = "estimated arrival date can not be null")
     @Column(name = "estimated_arrival_date")
-    private String estimatedArrivalDate;
+    private Date estimatedArrivalDate;
 
     @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = CascadeType.ALL)
