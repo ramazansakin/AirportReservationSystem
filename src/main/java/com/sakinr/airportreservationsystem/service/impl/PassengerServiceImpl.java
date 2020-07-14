@@ -89,4 +89,11 @@ public class PassengerServiceImpl implements PassengerService {
                 .noneMatch(p -> p.getFirstname().equals(firstName) && p.getPhone().startsWith(phonePrefix));
     }
 
+    private Integer getCountOfMalePassengersAgeBetween(Integer minAge, Integer maxAge) {
+        List<Passenger> allPassengers = getAllPassengers();
+        return (int) allPassengers.stream()
+                .filter(p -> p.getGender().equals("male") && (p.getAge() > minAge && p.getAge() < maxAge))
+                .count();
+    }
+
 }
