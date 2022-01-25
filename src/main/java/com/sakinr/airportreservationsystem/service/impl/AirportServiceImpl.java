@@ -15,8 +15,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class AirportServiceImpl implements AirportService {
 
     private final AirportRepository airportRepository;
@@ -62,12 +62,12 @@ public class AirportServiceImpl implements AirportService {
 
     private void printAllAdressCityStartsWith(String prefix) {
         List<Address> addressCityStartsWith = getAddressCityStartsWith(prefix);
-        List<String> openAddressList = addressCityStartsWith.stream()
-                .map(address -> address.getCityName() + "/" + address.getStreetCode() + "/" + address.getBuildingNo())
+        addressCityStartsWith.stream()
+                .map(address -> address.getCityName() + "/" + address.getStreetCode() + "/" +
+                        address.getBuildingNo())
                 .distinct()
-                .collect(Collectors.toList());
-
-        openAddressList.forEach(System.out::println);
+                .collect(Collectors.toList())
+                .forEach(System.out::println);
     }
 
     private void reduceAddressListToCityNameAndStreetCode() {
@@ -96,12 +96,11 @@ public class AirportServiceImpl implements AirportService {
         Airport airport = airportRepository.getOne(airport_id);
 
         // Defining a consumer for airport address list
-        Consumer<Airport> airportConsumer = (air) -> {
-            air.getAddresses().forEach(System.out::println);
-        };
+        Consumer<Airport> airportConsumer = air -> air.getAddresses().forEach(System.out::println);
 
         airportConsumer.accept(airport);
     }
 
 
 }
+
