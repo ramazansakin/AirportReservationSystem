@@ -56,14 +56,14 @@ public class AirportServiceImpl implements AirportService {
                 .map(Airport::getAddresses)
                 .flatMap(Collection::stream)
                 .distinct()
-                .filter(a -> a.getCityName().startsWith(prefix))
+                .filter(a -> a.getCity().startsWith(prefix))
                 .collect(Collectors.toList());
     }
 
     private void printAllAdressCityStartsWith(String prefix) {
         List<Address> addressCityStartsWith = getAddressCityStartsWith(prefix);
         addressCityStartsWith.stream()
-                .map(address -> address.getCityName() + "/" + address.getStreetCode() + "/" +
+                .map(address -> address.getCity() + "/" + address.getStreetCode() + "/" +
                         address.getBuildingNo())
                 .distinct()
                 .collect(Collectors.toList())
@@ -75,7 +75,7 @@ public class AirportServiceImpl implements AirportService {
         String reducedAddressList = allAirports.stream()
                 .map(Airport::getAddresses)
                 .flatMap(Collection::stream)
-                .map(address -> address.getCityName() + " " + address.getStreetCode())
+                .map(address -> address.getCity() + " " + address.getStreetCode())
                 .reduce("", (s1, s2) -> s1 + s2);
 
         System.out.println("Reduced address List : " + reducedAddressList);
@@ -84,9 +84,9 @@ public class AirportServiceImpl implements AirportService {
     private String getCombinedAddressOfBoth(Airport airport1, Airport airport2) {
         // Airports check here!
         // I assume that there is nothing bad here :) and enjoy with BiFunction sample
-        BiFunction<Airport, Airport, String> function = (a1, a2) -> a1.getAddresses().get(0).getCityName() + "-" + a1.getAddresses().get(0).getStreetCode()
+        BiFunction<Airport, Airport, String> function = (a1, a2) -> a1.getAddresses().get(0).getCity() + "-" + a1.getAddresses().get(0).getStreetCode()
                 + " ------- " +
-                a2.getAddresses().get(0).getCityName() + "-" + a2.getAddresses().get(0).getStreetCode();
+                a2.getAddresses().get(0).getCity() + "-" + a2.getAddresses().get(0).getStreetCode();
 
         // Gets combined Address String
         return function.apply(airport1, airport2);

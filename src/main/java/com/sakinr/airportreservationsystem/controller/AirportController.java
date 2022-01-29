@@ -1,6 +1,8 @@
 package com.sakinr.airportreservationsystem.controller;
 
 import com.sakinr.airportreservationsystem.entity.Airport;
+import com.sakinr.airportreservationsystem.model.dto.AirportDTO;
+import com.sakinr.airportreservationsystem.model.mapper.AirportMapper;
 import com.sakinr.airportreservationsystem.service.AirportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Validated
@@ -25,8 +28,9 @@ public class AirportController {
     }
 
     @GetMapping(value = "/all")
-    public List<Airport> getAllAirports() {
-        return airportService.getAllAirports();
+    public List<AirportDTO> getAllAirports() {
+        List<Airport> allAirports = airportService.getAllAirports();
+        return allAirports.stream().map(AirportMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping(value = "/{id}")
