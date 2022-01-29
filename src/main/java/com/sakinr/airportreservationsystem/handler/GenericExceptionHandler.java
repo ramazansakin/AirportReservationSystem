@@ -1,5 +1,6 @@
 package com.sakinr.airportreservationsystem.handler;
 
+import com.sakinr.airportreservationsystem.exception.InvalidRequestException;
 import com.sakinr.airportreservationsystem.exception.NotFoundException;
 import com.sakinr.airportreservationsystem.exception.QuotaIsFullException;
 import com.sakinr.airportreservationsystem.model.ValidationErrorResponse;
@@ -64,6 +65,11 @@ public class GenericExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> onPSQLException(DataIntegrityViolationException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidRequestException.class)
+    public ResponseEntity<Object> onInvalidRequestException(InvalidRequestException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 

@@ -1,6 +1,7 @@
 package com.sakinr.airportreservationsystem.controller;
 
 import com.sakinr.airportreservationsystem.entity.Passenger;
+import com.sakinr.airportreservationsystem.exception.InvalidRequestException;
 import com.sakinr.airportreservationsystem.model.dto.PassengerDto;
 import com.sakinr.airportreservationsystem.model.mapper.PassengerMapper;
 import com.sakinr.airportreservationsystem.service.PassengerService;
@@ -47,6 +48,9 @@ public class PassengerController {
 
     @PutMapping(value = "/update")
     public Passenger updatePassenger(@Valid @RequestBody Passenger passenger) {
+        if (passenger.getId() == null) {
+            throw new InvalidRequestException("Passenger id can not be null for update!");
+        }
         return passengerService.updatePassenger(passenger);
     }
 
