@@ -8,7 +8,7 @@ public class AirportMapper {
     public static AirportDTO toDto(Airport airport) {
         AirportDTO converted = new AirportDTO();
         converted.setName(airport.getName());
-        converted.setAddresses(airport.getAddresses());
+        converted.setAddresses(airport.formatToAddressList());
         return converted;
     }
 

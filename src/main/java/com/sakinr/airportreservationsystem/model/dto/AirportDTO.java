@@ -20,7 +20,7 @@ public class AirportDTO {
 
     public String formatAddresses() {
         StringJoiner strJoiner = new StringJoiner(" // ");
-        getAddresses().forEach(address -> strJoiner.add(address.toString()));
+        getAddresses().forEach(address -> strJoiner.add(address.dbFormat()));
         return strJoiner.toString();
     }
 }
