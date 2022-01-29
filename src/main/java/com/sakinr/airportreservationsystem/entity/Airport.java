@@ -26,6 +26,9 @@ public class Airport implements Serializable {
     @NotNull(message = "{validation.messages.airport.name}")
     private String name;
 
+    @NotNull(message = "{validation.messages.airport.address}")
+    private String address;
+
     // Transient tells "do not persist this field"
     @Transient
     private List<Address> addresses;
