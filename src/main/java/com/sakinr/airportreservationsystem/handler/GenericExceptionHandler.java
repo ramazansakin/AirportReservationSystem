@@ -4,6 +4,7 @@ import com.sakinr.airportreservationsystem.exception.NotFoundException;
 import com.sakinr.airportreservationsystem.exception.QuotaIsFullException;
 import com.sakinr.airportreservationsystem.model.ValidationErrorResponse;
 import com.sakinr.airportreservationsystem.model.Violation;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -59,6 +60,11 @@ public class GenericExceptionHandler {
     @ExceptionHandler(QuotaIsFullException.class)
     public ResponseEntity<Object> onQuotaIsFullException(QuotaIsFullException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Object> onPSQLException(DataIntegrityViolationException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     // If not found specific exception, use this
