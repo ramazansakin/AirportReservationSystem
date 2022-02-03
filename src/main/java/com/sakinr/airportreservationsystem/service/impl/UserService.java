@@ -7,7 +7,6 @@ import com.sakinr.airportreservationsystem.model.User;
 import com.sakinr.airportreservationsystem.repository.UserRepository;
 import com.sakinr.airportreservationsystem.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,20 +22,17 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     @PostConstruct
     private void postConstruct() {
+        // Sample test admin user insert
         User admin = new User();
         admin.setUsername("admin-rmzn");
         admin.setPassword("pass12345");
@@ -45,14 +41,6 @@ public class UserService {
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         userRepository.save(admin);
     }
-
-//    {
-//        User admin = new User();
-//        admin.setUsername("admin-rmzn");
-//        admin.setPassword("pass123");
-//        admin.setEmail("admin@email.com");
-//        admin.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
-//    }
 
     public String signin(String username, String password) {
         try {
