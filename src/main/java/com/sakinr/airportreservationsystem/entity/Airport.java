@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Data
@@ -26,8 +28,21 @@ public class Airport implements Serializable {
     @NotNull(message = "{validation.messages.airport.name}")
     private String name;
 
+    @NotNull(message = "{validation.messages.airport.address}")
+    private String address;
+
     // Transient tells "do not persist this field"
     @Transient
     private List<Address> addresses;
+
+    public List<Address> formatToAddressList() {
+        String[] splitedAddresses = address.split("//");
+        List<Address> resultFormat = new ArrayList<>();
+        Arrays.stream(splitedAddresses).forEach(split -> {
+            String[] spliteds = split.trim().split("/");
+            resultFormat.add(new Address(spliteds[0], spliteds[1]));
+        });
+        return resultFormat;
+    }
 
 }
