@@ -1,0 +1,32 @@
+version: '3.1'
+services:
+  airport-reservation-system:
+    container_name: airport-reservation-system-mservice
+    build: ./
+    ports:
+      - "8080:8080"
+    depends_on:
+      - dbpostgres
+      - rabbitmq
+    links:
+      - dbpostgres
+      - rabbitmq
+    restart: on-failure
+
+  dbpostgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=passrmzn
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=patika_airport_reservation_system_db
+
+  rabbitmq:
+    image: rabbitmq:3.8.3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
