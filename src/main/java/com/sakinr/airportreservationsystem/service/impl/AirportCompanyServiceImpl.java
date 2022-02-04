@@ -72,10 +72,7 @@ public class AirportCompanyServiceImpl implements AirportCompanyService {
     public boolean cancelTicket(final Integer ticket_id) {
         Ticket ticket = ticketService.getTicket(ticket_id);
         Flight flight = flightService.getFlight(ticket.getFlight().getId());
-        Ticket ticket1 = flight.getTickets().stream()
-                .filter(t -> t.getId().equals(ticket.getId()))
-                .findFirst().orElseThrow(() -> new NotFoundException("Ticket"));
-        flight.getTickets().remove(ticket1);
+        flight.getTickets().remove(ticket);
         flightService.updateFlight(flight);
         ticketService.deleteTicket(ticket.getId());
         return true;
