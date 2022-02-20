@@ -41,8 +41,8 @@ public class OrganizationManagementProjectRestClient {
     public ResponseEntity<Object> createEvent(@RequestBody EventDTO event) {
         final String uri = blogAppBaseURL + "/events";
 
-        HttpEntity<EventDTO> request = new HttpEntity<>(event);
-        ResponseEntity<EventDTO> result = restTemplate.exchange(uri, HttpMethod.POST, request,
+        HttpEntity<EventDTO> requestBody = new HttpEntity<>(event);
+        ResponseEntity<EventDTO> result = restTemplate.exchange(uri, HttpMethod.POST, requestBody,
                 new ParameterizedTypeReference<EventDTO>() {
                 });
         return new ResponseEntity<>(result.getBody(), result.getStatusCode());

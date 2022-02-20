@@ -22,9 +22,9 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/signin")
-    @ApiOperation(value = "${UserController.signin}")
+    @ApiOperation(value = "This api is used for log in via related users")
     @ApiResponses(value = {
-            @ApiResponse(code = 400, message = "Something went wrong"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 422, message = "Invalid username/password supplied")})
     public String login(
             @RequestParam String username,
