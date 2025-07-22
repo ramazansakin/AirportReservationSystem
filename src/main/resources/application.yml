@@ -1,7 +1,32 @@
-# Common application configuration (shared across all profiles)
+# Common application configuration
+# Database configuration is in profile-specific files (e.g., application-test.yml)
+
 spring:
   application:
     name: airport-reservation-system
+
+# Common application properties
+app:
+  version: 1.0.0
+  
+# Logging configuration (can be overridden in profile-specific configs)
+logging:
+  level:
+    root: INFO
+    com.sakinr.airportreservationsystem: INFO
+
+# Default server configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+    
+# Common security configuration (can be overridden in profile-specific configs)
+security:
+  jwt:
+    token:
+      secret-key: ${JWT_SECRET:default-jwt-secret-key-1234567890}
+      expire-length: 86400000  # 24 hours in milliseconds
   mvc:
     path-match:
       matching-strategy: ant_path_matcher
@@ -29,9 +54,3 @@ info:
     description: @project.description@
     version: @project.version@
 
-# Security (common for all profiles)
-security:
-  jwt:
-    token:
-      secret-key: secret-key
-      expire-length: 300000  # 5 minutes in milliseconds

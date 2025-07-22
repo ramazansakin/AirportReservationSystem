@@ -3,29 +3,64 @@
 server:
   servlet:
     context-path: /airport-reservation-system/test
+  port: 8081  # Different port for test profile
 
-# PostgreSQL Database Configuration
+# Test Database Configuration
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/patika_airport_reservation_system_db
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/airport_test_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: passrmzn
+    initialization-mode: always
+
+  # JPA/Hibernate properties
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none  # We'll use schema.sql for DDL
+    show-sql: true
     properties:
       hibernate:
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+          time_zone: UTC
         dialect: org.hibernate.dialect.PostgreSQLDialect
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
+        default_schema: public
+    defer-datasource-initialization: true  # Initialize data after Hibernate is initialized
+
+  # Database initialization
   sql:
     init:
       mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+      separator: ;
+      encoding: UTF-8
+      continue-on-error: true
 
-# RabbitMQ Configuration (commented out by default in test)
-# spring:
-#   rabbitmq:
-#     host: test-host
-#     port: 5672
-#     username: specific-user
-#     password: specific-user
+# Test-specific properties
+app:
+  generate-test-data: true  # Always generate test data in test profile
+  test:
+    data:
+      enabled: true
+      clear-database: true  # Clear database before tests
+
+# Logging configuration for tests
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql.BasicBinder: WARN
+    org.springframework.jdbc.core.JdbcTemplate: WARN
+    com.sakinr.airportreservationsystem: DEBUG
+    
+# Test-specific security configuration (if needed)
+security:
+  jwt:
+    token:
+      secret-key: test-secret-key-1234567890-1234567890-1234567890
+      expire-length: 3600000  # 1 hour for tests
