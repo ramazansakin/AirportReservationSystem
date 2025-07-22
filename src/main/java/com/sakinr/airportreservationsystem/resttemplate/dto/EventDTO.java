@@ -2,7 +2,7 @@ package com.sakinr.airportreservationsystem.resttemplate.dto;
 
 import lombok.Data;
 
-import javax.persistence.ManyToOne;
+import jakarta.persistence.ManyToOne;
 
 @Data
 public class EventDTO {

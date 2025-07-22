@@ -2,13 +2,14 @@ package com.sakinr.airportreservationsystem.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import java.util.List;
 
 
 @Data
-@Entity
+@Entity(name = "users")
+@Table(name = "users")
 public class User {
 
     @Id

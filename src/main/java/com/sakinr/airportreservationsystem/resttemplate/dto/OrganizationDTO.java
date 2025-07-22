@@ -2,7 +2,7 @@ package com.sakinr.airportreservationsystem.resttemplate.dto;
 
 import lombok.Data;
 
-import javax.persistence.OneToMany;
+import jakarta.persistence.OneToMany;
 import java.util.List;
 
 @Data

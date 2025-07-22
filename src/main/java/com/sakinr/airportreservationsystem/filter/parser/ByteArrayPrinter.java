@@ -1,6 +1,6 @@
 package com.sakinr.airportreservationsystem.filter.parser;
 
-import javax.servlet.ServletOutputStream;
+import jakarta.servlet.ServletOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
