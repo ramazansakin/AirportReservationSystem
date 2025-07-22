@@ -1,11 +1,10 @@
----
 # Development profile configuration
-server:
-  servlet:
-    context-path: /airport-reservation-system/dev
-
-# H2 Database Configuration
 spring:
+  config:
+    activate:
+      on-profile: dev
+
+  # H2 Database Configuration
   datasource:
     url: jdbc:h2:mem:airport-system-db;DB_CLOSE_DELAY=-1;
     username: sa
@@ -19,18 +18,31 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
-  sql:
-    init:
-      platform: h2
   h2:
     console:
       enabled: true
       path: /h2-console
 
-# RabbitMQ Configuration (commented out by default in dev)
+# Development Server Configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /airport-reservation-system/dev
+
+# RabbitMQ Configuration (local development)
+# Uncomment and configure as needed
 # spring:
 #   rabbitmq:
-#     host: 127.0.0.1
+#     host: localhost
 #     port: 5672
 #     username: guest
 #     password: guest
+
+# Logging configuration for development
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.sakinr.airportreservationsystem: DEBUG

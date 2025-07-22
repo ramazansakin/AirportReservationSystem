@@ -1,74 +1,37 @@
----
-# Spring app configs
+# Common application configuration (shared across all profiles)
 spring:
   application:
     name: airport-reservation-system
-  profiles:
-    active: dev
+  mvc:
+    path-match:
+      matching-strategy: ant_path_matcher
+  config:
+    activate:
+      on-profile: default
   devtools:
     restart:
       enabled: true
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
 
-  # Datasource Configs
-  datasource:
-    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;
-    username: test
-    password: pass123
-    driver-class-name: org.h2.Driver
-  sql:
-    init:
-      platform: h2
-  jpa:
-    show-sql: true
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-  
-  # RabbitMQ configs
-  rabbitmq:
-    host: rabbitmq
-    port: 5672
-    username: guest
-    password: guest
-
-# Server config
-server:
-  port: 8080
-
-# Hibernate
-dialect: org.hibernate.dialect.H2Dialect
-
-# Management Endpoints config
+# Management endpoints (common for all profiles)
 management:
-  server:
-    port: 9000
   endpoints:
     web:
       exposure:
         include: '*'
   endpoint:
-    shutdown:
-      enabled: true
     health:
       show-details: always
 
-# Application Info
+# Application Info (common for all profiles)
 info:
   app:
     name: @project.name@
     description: @project.description@
     version: @project.version@
-    encoding: @project.build.sourceEncoding@
-    java:
-      profile: ${spring.profiles.active}
 
-# Security
+# Security (common for all profiles)
 security:
   jwt:
     token:
       secret-key: secret-key
-      # 5 minutes duration by default: 5 minutes * 60 seconds * 1000 miliseconds
-      expire-length: 300000
+      expire-length: 300000  # 5 minutes in milliseconds
