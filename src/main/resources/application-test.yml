@@ -8,11 +8,10 @@ server:
 # Test Database Configuration
 spring:
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/airport_test_db}
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/patika_airport_reservation_system_db}
     username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:postgres}
+    password: ${DB_PASSWORD:passrmzn}
     driver-class-name: org.postgresql.Driver
-    initialization-mode: always
 
   # JPA/Hibernate properties
   jpa:
