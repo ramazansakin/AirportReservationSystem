@@ -1,0 +1,31 @@
+---
+# Test profile configuration
+server:
+  servlet:
+    context-path: /airport-reservation-system/test
+
+# PostgreSQL Database Configuration
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/patika_airport_reservation_system_db
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: passrmzn
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  sql:
+    init:
+      mode: always
+
+# RabbitMQ Configuration (commented out by default in test)
+# spring:
+#   rabbitmq:
+#     host: test-host
+#     port: 5672
+#     username: specific-user
+#     password: specific-user
