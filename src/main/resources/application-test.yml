@@ -17,7 +17,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: none  # We'll use schema.sql for DDL
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -35,7 +35,6 @@ spring:
     init:
       mode: always
       schema-locations: classpath:schema.sql
-      data-locations: classpath:data.sql
       separator: ;
       encoding: UTF-8
       continue-on-error: true

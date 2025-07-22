@@ -7,6 +7,7 @@ import com.sakinr.airportreservationsystem.model.User;
 import com.sakinr.airportreservationsystem.repository.UserRepository;
 import com.sakinr.airportreservationsystem.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +19,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Collections;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -32,14 +34,18 @@ public class UserService {
 
     @PostConstruct
     private void postConstruct() {
-        // Sample test admin user insert
-        User admin = new User();
-        admin.setUsername("admin-rmzn");
-        admin.setPassword("pass12345");
-        admin.setEmail("admin@email.com");
-        admin.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
-        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
-        userRepository.save(admin);
+        // Check if admin user already exists
+        if (!userRepository.existsByUsername("admin-rmzn")) {
+            // Sample test admin user insert
+            User admin = new User();
+            admin.setUsername("admin-rmzn");
+            admin.setPassword("pass12345");
+            admin.setEmail("admin@email.com");
+            admin.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
+            admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+            userRepository.save(admin);
+            log.info("Created default admin user");
+        }
     }
 
     public String signin(String username, String password) {

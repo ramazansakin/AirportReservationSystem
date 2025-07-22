@@ -4,6 +4,8 @@
 spring:
   application:
     name: airport-reservation-system
+  profiles:
+    active: test
 
 # Common application properties
 app:
