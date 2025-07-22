@@ -1,16 +1,31 @@
-FROM openjdk:8-jdk-alpine
+# Build stage
+FROM maven:3.9.5-eclipse-temurin-21-alpine AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-MAINTAINER Ramazan Sakin <ramazansakin63@gmail.com>
+# Run stage
+FROM eclipse-temurin:21-jre-alpine
+
+LABEL maintainer="Ramazan Sakin <ramazansakin63@gmail.com>"
+
+# Add the application jar to the container
+COPY --from=build /app/target/airport-reservation-system.jar /app/airport-reservation-system.jar
+
+# Expose the application port
 EXPOSE 8080
-ADD target/airport-reservation-system.jar airport-reservation-system.jar
 
-ENTRYPOINT ["java","-jar","/airport-reservation-system.jar"]
+# Set the entry point
+ENTRYPOINT ["java", "-jar", "/app/airport-reservation-system.jar"]
 
-## Dockerizing the app
+## Docker Commands
 #
-# Create a Spring Boot Application
-# Create Dockerfile
-# Build executable jar file - mvn clean package
-# Build Docker image - docker build -t airport-reservation-app:v1 .
-# Run Docker container using the image built - docker run -d --name bootdocker -p 8080:8080 airport-reservation-app:v1
-# Test
+# Build the application and Docker image:
+#   mvn clean package && docker build -t airport-reservation-app:latest .
+#
+# Run the container:
+#   docker run -d --name airport-app -p 8080:8080 airport-reservation-app:latest
+#
+# Run with docker-compose:
+#   docker-compose up -d
