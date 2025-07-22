@@ -5,76 +5,73 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Profile("test")
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableMethodSecurity
+public class WebSecurityConfig {
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    public WebSecurityConfig(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // Disable CSRF (cross site request forgery)
-        http.csrf().disable();
+        http.csrf(AbstractHttpConfigurer::disable);
 
         // No session will be created or used by spring security
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         // Entry points
-        http.authorizeRequests()//
-                .antMatchers("/users/signin").permitAll()
-                .antMatchers("/users/signup").permitAll()
-                .antMatchers("/actuator/**").permitAll()
-                .antMatchers("/h2-console/**/**").permitAll()
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/users/signin").permitAll()
+                .requestMatchers("/users/signup").permitAll()
+                .requestMatchers("/actuator/**").permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**").permitAll()
                 // Disallow everything else..
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+        );
 
-        // If a user try to access a resource without having enough permissions
-        http.exceptionHandling().accessDeniedPage("/login");
+        // If a user tries to access a resource without having enough permissions
+        http.exceptionHandling(exception -> exception.accessDeniedPage("/login"));
 
         // Apply JWT
-        http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
+        http.with(new JwtTokenFilterConfigurer(jwtTokenProvider), customizer -> {});
 
-        // Optional, if you want to test the API from a browser
-        // http.httpBasic();
+        // For H2 Console
+        http.headers(headers -> headers
+                .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+
+        return http.build();
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        // Allow swagger to be accessed without authentication
-        web.ignoring()
-                .antMatchers("/v2/api-docs")
-                .antMatchers("/swagger-resources/**")
-                .antMatchers("/swagger-ui.html")
-                .antMatchers("/configuration/**")
-                .antMatchers("/webjars/**")
-                .antMatchers("/public")
-                .antMatchers("/actuator/**")
-                // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
-                .antMatchers("/h2-console/**/**");
-    }
+    // WebSecurity configuration is now part of the main security filter chain above
+    // Using requestMatchers instead of antMatchers for the security filter chain
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
 
-    @Override
     @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
 }
