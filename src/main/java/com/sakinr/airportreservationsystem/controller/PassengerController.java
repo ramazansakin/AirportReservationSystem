@@ -25,10 +25,6 @@ public class PassengerController {
     private final PassengerService passengerService;
     private static final PassengerMapper PASSENGER_MAPPER = Mappers.getMapper(PassengerMapper.class);
 
-    @GetMapping
-    public String welcome() {
-        return "Welcome to Passenger Service!";
-    }
 
     @GetMapping
     public List<PassengerDto> getAllPassengers() {

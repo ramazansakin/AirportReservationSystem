@@ -26,11 +26,6 @@ public class TicketController {
     private final FlightService flightService;
 
     @GetMapping
-    public String welcome() {
-        return "Welcome to Ticket Service!";
-    }
-
-    @GetMapping
     public List<Ticket> getAllTickets() {
         return ticketService.getAllTickets();
     }

@@ -56,18 +56,6 @@ class AirportCompanyControllerTest {
     }
 
     @Test
-    void welcome() throws Exception {
-        // when
-        MockHttpServletResponse response = mvc.perform(get("/api/airport-company")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // then
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString().equals("Welcome to Airport Service!"));
-    }
-
-    @Test
     void getAllAirportCompanies() throws Exception {
         // init test values
         List<AirportCompany> airportCompanies = getTestAirportCompanies();

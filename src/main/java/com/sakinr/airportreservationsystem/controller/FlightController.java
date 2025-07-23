@@ -22,11 +22,6 @@ public class FlightController {
     private final FlightService flightService;
 
     @GetMapping
-    public String welcome() {
-        return "Welcome to Flight Service!";
-    }
-
-    @GetMapping
     public List<Flight> getAllFlights() {
         return flightService.getAllFlights();
     }

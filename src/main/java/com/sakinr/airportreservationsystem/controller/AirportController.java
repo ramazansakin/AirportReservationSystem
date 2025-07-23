@@ -23,11 +23,6 @@ public class AirportController {
     private final AirportService airportService;
 
     @GetMapping
-    public String welcome() {
-        return "Welcome to Airport Service!";
-    }
-
-    @GetMapping(value = "/all")
     public List<AirportDTO> getAllAirports() {
         List<Airport> allAirports = airportService.getAllAirports();
         return allAirports.stream().map(AirportMapper::toDto).collect(Collectors.toList());
