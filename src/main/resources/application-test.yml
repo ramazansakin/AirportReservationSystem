@@ -12,29 +12,38 @@ spring:
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:passrmzn}
     driver-class-name: org.postgresql.Driver
-
+    hikari:
+      maximum-pool-size: 20
+      connection-timeout: 30000
+      initialization-fail-timeout: -1
+    
   # JPA/Hibernate properties
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
         jdbc:
+          batch_size: 1000
           lob:
             non_contextual_creation: true
           time_zone: UTC
+        order_inserts: true
+        order_updates: true
+        batch_versioned_data: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
         default_schema: public
-    defer-datasource-initialization: true  # Initialize data after Hibernate is initialized
-
+    
   # Database initialization
   sql:
     init:
       mode: always
       schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
       separator: ;
       encoding: UTF-8
       continue-on-error: true
