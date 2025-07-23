@@ -16,8 +16,8 @@ public class Scheduler {
 
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-    // fixed job, runs on every 20 seconds
-    @Scheduled(fixedRate = 200000)
+    // fixed job, runs on every 120 seconds
+    @Scheduled(fixedRate = 1200000)
     public void fixedRateSch() {
         Date now = new Date();
         String strDate = sdf.format(now);
@@ -27,7 +27,7 @@ public class Scheduler {
     // cron , runs on every 15th, 30th nad 45th seconds
     // you can give a range via "-" char and so
     // format : (second) (minute) (hour) (day of month) (month) (day of week)
-    @Scheduled(cron = "15 * * * * *")
+    @Scheduled(cron = "0 0/5 * * * *")
     public void cronJobSch() {
         Date now = new Date();
         String strDate = sdf.format(now);
