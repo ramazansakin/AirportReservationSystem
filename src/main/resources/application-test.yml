@@ -41,7 +41,7 @@ spring:
   # Database initialization
   sql:
     init:
-      mode: always
+      mode: never  # Changed from 'always' to 'never' to prevent data.sql from running on every start
       schema-locations: classpath:schema.sql
       data-locations: classpath:data.sql
       separator: ;
