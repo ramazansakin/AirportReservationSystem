@@ -4,12 +4,12 @@ import com.sakinr.airportreservationsystem.entity.Airport;
 import com.sakinr.airportreservationsystem.model.dto.AirportDTO;
 import com.sakinr.airportreservationsystem.model.mapper.AirportMapper;
 import com.sakinr.airportreservationsystem.service.AirportService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/airport")
+@RequestMapping("/v1/airports")
 public class AirportController {
 
     private final AirportService airportService;

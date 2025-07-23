@@ -5,13 +5,13 @@ import com.sakinr.airportreservationsystem.exception.InvalidRequestException;
 import com.sakinr.airportreservationsystem.model.dto.PassengerDto;
 import com.sakinr.airportreservationsystem.model.mapper.PassengerMapper;
 import com.sakinr.airportreservationsystem.service.PassengerService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/passenger")
+@RequestMapping("/v1/passengers")
 public class PassengerController {
 
     private final PassengerService passengerService;
@@ -30,7 +30,7 @@ public class PassengerController {
         return "Welcome to Passenger Service!";
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public List<PassengerDto> getAllPassengers() {
         List<Passenger> allPassengers = passengerService.getAllPassengers();
         return allPassengers.stream().map(PASSENGER_MAPPER::toDto).collect(Collectors.toList());

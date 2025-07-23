@@ -5,30 +5,25 @@ import com.sakinr.airportreservationsystem.entity.AirportCompany;
 import com.sakinr.airportreservationsystem.entity.Flight;
 import com.sakinr.airportreservationsystem.entity.Ticket;
 import com.sakinr.airportreservationsystem.service.AirportCompanyService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import java.util.List;
 
 
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/airport-company")
+@RequestMapping("/v1/airport-companies")
 public class AirportCompanyController {
 
     private final AirportCompanyService airportCompanyService;
 
     @GetMapping
-    public String welcome() {
-        return "Welcome to Airport Service!";
-    }
-
-    @GetMapping(value = "/all")
     public List<AirportCompany> getAllAirportCompanies() {
         return airportCompanyService.getAllAirportCompanies();
     }

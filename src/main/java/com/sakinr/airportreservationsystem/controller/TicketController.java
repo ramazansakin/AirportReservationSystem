@@ -5,20 +5,20 @@ import com.sakinr.airportreservationsystem.entity.Ticket;
 import com.sakinr.airportreservationsystem.model.PageableQuery;
 import com.sakinr.airportreservationsystem.service.FlightService;
 import com.sakinr.airportreservationsystem.service.TicketService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import java.util.List;
 
 
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/ticket")
+@RequestMapping("/api/tickets")
 public class TicketController {
 
     private final TicketService ticketService;
@@ -30,7 +30,7 @@ public class TicketController {
         return "Welcome to Ticket Service!";
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public List<Ticket> getAllTickets() {
         return ticketService.getAllTickets();
     }

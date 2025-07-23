@@ -2,13 +2,13 @@ package com.sakinr.airportreservationsystem.controller;
 
 import com.sakinr.airportreservationsystem.entity.Flight;
 import com.sakinr.airportreservationsystem.service.FlightService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/flight")
+@RequestMapping("/v1/flights")
 public class FlightController {
 
     private final FlightService flightService;
@@ -26,7 +26,7 @@ public class FlightController {
         return "Welcome to Flight Service!";
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public List<Flight> getAllFlights() {
         return flightService.getAllFlights();
     }

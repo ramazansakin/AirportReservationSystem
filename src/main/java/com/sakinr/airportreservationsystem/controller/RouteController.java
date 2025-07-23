@@ -3,6 +3,8 @@ package com.sakinr.airportreservationsystem.controller;
 import com.sakinr.airportreservationsystem.entity.Route;
 import com.sakinr.airportreservationsystem.model.PageableQuery;
 import com.sakinr.airportreservationsystem.service.RouteService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -10,20 +12,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import java.util.List;
 
 
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/route")
+@RequestMapping("/v1/routes")
 public class RouteController {
 
     private final RouteService routeService;
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public List<Route> getAllRoutes() {
         return routeService.getAllRoutes();
     }
