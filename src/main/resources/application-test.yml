@@ -2,8 +2,7 @@
 # Test profile configuration
 server:
   servlet:
-    context-path: /airport-reservation-system/test
-  port: 8081  # Different port for test profile
+    context-path: /airport-reservation-system/api
 
 # Test Database Configuration
 spring:
