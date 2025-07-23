@@ -25,9 +25,8 @@ spring:
 
 # Development Server Configuration
 server:
-  port: 8080
   servlet:
-    context-path: /airport-reservation-system/dev
+    context-path: /dev/airport-reservation-system
 
 # RabbitMQ Configuration (local development)
 # Uncomment and configure as needed

@@ -20,8 +20,6 @@ logging:
 # Default server configuration
 server:
   port: 8080
-  servlet:
-    context-path: /api
     
 # Common security configuration (can be overridden in profile-specific configs)
 security:

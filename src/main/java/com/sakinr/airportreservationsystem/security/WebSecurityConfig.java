@@ -35,8 +35,8 @@ public class WebSecurityConfig {
 
         // Entry points
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/users/signin").permitAll()
-                .requestMatchers("/users/signup").permitAll()
+                .requestMatchers("/v1/users/signin").permitAll()
+                .requestMatchers("/v1/users/signup").permitAll()
                 .requestMatchers("/actuator/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**").permitAll()

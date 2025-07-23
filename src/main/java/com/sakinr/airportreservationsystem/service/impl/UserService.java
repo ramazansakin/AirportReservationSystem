@@ -1,7 +1,7 @@
 package com.sakinr.airportreservationsystem.service.impl;
 
-
 import com.sakinr.airportreservationsystem.exception.CustomException;
+import com.sakinr.airportreservationsystem.model.LoginResponse;
 import com.sakinr.airportreservationsystem.model.Role;
 import com.sakinr.airportreservationsystem.model.User;
 import com.sakinr.airportreservationsystem.repository.UserRepository;
@@ -48,10 +48,18 @@ public class UserService {
         }
     }
 
-    public String signin(String username, String password) {
+    public LoginResponse signin(String username, String password) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-            return jwtTokenProvider.createToken(username, userRepository.findByUsername(username).getRoles());
+            User user = userRepository.findByUsername(username);
+            String token = jwtTokenProvider.createToken(username, user.getRoles());
+            return new LoginResponse(
+                token,
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getRoles()
+            );
         } catch (AuthenticationException e) {
             throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
         }

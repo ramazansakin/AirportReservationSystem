@@ -1,41 +1,66 @@
 package com.sakinr.airportreservationsystem.controller;
 
-import com.sakinr.airportreservationsystem.model.User;
-import com.sakinr.airportreservationsystem.model.UserDataDTO;
-import com.sakinr.airportreservationsystem.model.UserResponseDTO;
+import com.sakinr.airportreservationsystem.model.*;
 import com.sakinr.airportreservationsystem.service.impl.UserService;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import io.swagger.v3.oas.annotations.*;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
-
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/v1/users")
+@RequiredArgsConstructor
 @Tag(name = "users", description = "APIs for user management")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping("/signin")
-    @Operation(summary = "Authenticate user", description = "This API is used for user login")
+    @Operation(
+            summary = "Authenticate user",
+            description = "Authenticates a user and returns a JWT token with user details for authorization"
+    )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "422", description = "Invalid username/password supplied")})
-    public String login(
-            @RequestParam String username,
-            @RequestParam String password) {
-        return userService.signin(username, password);
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Authentication successful",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = LoginResponse.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid request format or missing required fields",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "422",
+                    description = "Invalid username/password supplied",
+                    content = @Content
+            )
+    })
+    public LoginResponse login(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Login credentials",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = LoginRequest.class)
+                    )
+            )
+            @Valid @RequestBody LoginRequest loginRequest) {
+        return userService.signin(loginRequest.getUsername(), loginRequest.getPassword());
     }
 
     @PostMapping("/signup")
