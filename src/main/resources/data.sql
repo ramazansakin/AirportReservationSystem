@@ -76,38 +76,37 @@ SELECT
         WHEN n % 5 != 0 THEN 'user' || n::text || '@example.com'
         ELSE NULL
     END as email
-FROM 
-    (VALUES 
-        (ARRAY['Ali', 'Ahmet', 'Mehmet', 'Mustafa', 'Yusuf', 'Emre', 'Can', 'Burak', 'Eren', 'Kemal',
-               'Ayse', 'Fatma', 'Zeynep', 'Elif', 'Merve', 'Selin', 'Sude', 'Ceren', 'Dilara', 'Esra',
-               'John', 'Michael', 'David', 'James', 'Robert', 'William', 'Richard', 'Joseph', 'Thomas', 'Daniel',
-               'Emma', 'Olivia', 'Ava', 'Isabella', 'Sophia', 'Mia', 'Charlotte', 'Amelia', 'Harper', 'Evelyn']),
-        
-        (ARRAY['Yilmaz', 'Kaya', 'Demir', 'Sahin', 'Celik', 'Yildiz', 'Yildirim', 'Ozturk', 'Aydin', 'Ozdemir',
-               'Arslan', 'Dogan', 'Kilic', 'Aslan', 'Cetin', 'Kara', 'Kurt', 'Ozkan', 'Simsek', 'Yavuz',
-               'Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez',
-               'Wilson', 'Anderson', 'Taylor', 'Thomas', 'Hernandez', 'Moore', 'Martin', 'Jackson', 'Thompson', 'White']),
-        
-        (ARRAY['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'protonmail.com', 'icloud.com', 'aol.com', 'yandex.com', 'mail.com'])
-    ) AS t(first_names, last_names, domains),
-    generate_series(1, 100000);
+FROM generate_series(1, 100000) n;
 
--- 6. Generate tickets (1,000,000+ tickets)
+-- ===========================================
+-- Insert Tickets (500,000 tickets)
+-- ===========================================
+
+-- Simple ticket insertion with direct references to avoid division by zero
+-- This will work as long as at least one passenger and one flight exist
+INSERT INTO ticket (passenger_id, flight_id)
+SELECT 
+    (p.id) as passenger_id,
+    (f.id) as flight_id
+FROM 
+    generate_series(1, 500000) n,
+    (SELECT id FROM passenger LIMIT 1) p,
+    (SELECT id FROM flight LIMIT 1) f
+ON CONFLICT DO NOTHING;
+
+-- Now update with more varied data if we have enough records
+-- This will only run if the first insert succeeded
 INSERT INTO ticket (passenger_id, flight_id)
 SELECT 
     p.id as passenger_id,
     f.id as flight_id
 FROM 
-    (SELECT id FROM passenger ORDER BY random() LIMIT 1000000) p,
-    (SELECT id FROM flight ORDER BY random() LIMIT 1) f
+    generate_series(1, 500000) n
+    CROSS JOIN (SELECT id FROM passenger ORDER BY id LIMIT 100) p
+    CROSS JOIN (SELECT id FROM flight ORDER BY id LIMIT 100) f
+WHERE 
+    (n % 100) = p.id % 100 AND
+    ((n / 100) % 100) = f.id % 100 AND
+    NOT EXISTS (SELECT 1 FROM ticket WHERE passenger_id = p.id AND flight_id = f.id)
+LIMIT 500000
 ON CONFLICT DO NOTHING;
-
--- Update flight dates to ensure estimated_arrival is after departure_date
-UPDATE flight
-SET estimated_arrival_date = departure_date + (floor(random() * 3) + 1) * interval '1 hour' + (floor(random() * 60) * interval '1 minute')
-WHERE estimated_arrival_date <= departure_date;
-
--- Clean up functions
-DROP FUNCTION IF EXISTS random_string(integer);
-DROP FUNCTION IF EXISTS random_date(date, date);
-DROP FUNCTION IF EXISTS random_phone();
