@@ -12,7 +12,7 @@
     <artifactId>airport-reservation-system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>airport-reservation-system</name>
-    <description>Demo project for Spring Boot</description>
+    <description>A comprehensive Spring Boot-based airport reservation system with advanced analytics capabilities. This application provides a complete solution for managing flights, passengers, tickets, and more, with powerful reporting and analytics features.</description>
 
     <properties>
         <java.version>21</java.version>
