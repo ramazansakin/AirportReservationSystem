@@ -16,7 +16,7 @@ INSERT INTO airport (name, address)
 SELECT 
     'Airport ' || n::text,
     'Address ' || n::text || ', City ' || (n % 50 + 1)::text || ', Country ' || (n % 20 + 1)::text
-FROM generate_series(1, 200) n;
+FROM generate_series(1, 400) n;
 
 -- ===========================================
 -- Insert Airport Companies (50+ companies)
@@ -25,7 +25,7 @@ FROM generate_series(1, 200) n;
 -- Insert airport companies with simple naming pattern
 INSERT INTO airport_company (name)
 SELECT DISTINCT 'Airline ' || n::text
-FROM generate_series(1, 100) n;
+FROM generate_series(1, 150) n;
 
 -- ===========================================
 -- Insert Routes (2,000+ routes)
@@ -41,8 +41,8 @@ FROM
     (SELECT id FROM airport ORDER BY id) b
 WHERE 
     a.id != b.id AND
-    a.id <= 100 AND b.id <= 100 -- Limit for faster execution
-LIMIT 2000;
+    a.id <= 150 AND b.id <= 150 -- Limit for faster execution
+LIMIT 5000;
 
 -- ===========================================
 -- Insert Flights (100,000 flights)
@@ -89,7 +89,7 @@ SELECT
     (p.id) as passenger_id,
     (f.id) as flight_id
 FROM 
-    generate_series(1, 500000) n,
+    generate_series(1, 1000000) n,
     (SELECT id FROM passenger LIMIT 1) p,
     (SELECT id FROM flight LIMIT 1) f
 ON CONFLICT DO NOTHING;
@@ -108,5 +108,5 @@ WHERE
     (n % 100) = p.id % 100 AND
     ((n / 100) % 100) = f.id % 100 AND
     NOT EXISTS (SELECT 1 FROM ticket WHERE passenger_id = p.id AND flight_id = f.id)
-LIMIT 500000
+LIMIT 1000000
 ON CONFLICT DO NOTHING;
