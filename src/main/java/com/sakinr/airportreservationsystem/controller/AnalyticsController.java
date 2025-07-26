@@ -64,46 +64,23 @@ public class AnalyticsController {
     }
 
     @GetMapping("/monthly-route-performance")
-    public ResponseEntity<List<Map<String, Object>>> getMonthlyRoutePerformance(
-            @RequestParam(defaultValue = "0") @Min(0) int page,
-            @RequestParam(defaultValue = "50") @Min(1) @Max(200) int size) {
+    public ResponseEntity<List<Map<String, Object>>> getMonthlyRoutePerformance() {
         List<Map<String, Object>> results = analyticsRepository.findMonthlyRoutePerformanceAnalytics();
-
-        // Manual pagination since we're using native queries
-        int start = page * size;
-        int end = Math.min(start + size, results.size());
-
-        if (start >= results.size()) {
-            return ResponseEntity.ok(Collections.emptyList());
-        }
-
-        return ResponseEntity.ok(results.subList(start, end));
+        return ResponseEntity.ok(results);
     }
 
     @GetMapping("/customer-analytics")
     public ResponseEntity<List<Map<String, Object>>> getCustomerAnalytics(
-            @RequestParam(required = false) String tier,
-            @RequestParam(defaultValue = "0") @Min(0) int page,
-            @RequestParam(defaultValue = "50") @Min(1) @Max(200) int size) {
+            @RequestParam(required = false) String tier) {
 
         List<Map<String, Object>> results = analyticsRepository.findCustomerAnalyticsWithTiers();
-
         // Filter by customer tier if specified
         if (tier != null && !tier.isEmpty()) {
             results = results.stream()
                     .filter(customer -> tier.equalsIgnoreCase((String) customer.get("customerTier")))
                     .collect(Collectors.toList());
         }
-
-        // Manual pagination
-        int start = page * size;
-        int end = Math.min(start + size, results.size());
-
-        if (start >= results.size()) {
-            return ResponseEntity.ok(Collections.emptyList());
-        }
-
-        return ResponseEntity.ok(results.subList(start, end));
+        return ResponseEntity.ok(results);
     }
 
     @GetMapping("/flight-performance")
@@ -159,10 +136,13 @@ public class AnalyticsController {
             // Top 5 airports
             summary.put("top5Airports", topAirports.stream().limit(5).collect(Collectors.toList()));
 
-            // Customer tier distribution
+            // Customer tier distribution - handle null customer tiers
             Map<String, Long> tierDistribution = customerAnalytics.stream()
                     .collect(Collectors.groupingBy(
-                            customer -> (String) customer.get("customerTier"),
+                            customer -> {
+                                String tier = (String) customer.get("customerTier");
+                                return tier != null ? tier : "UNKNOWN";
+                            },
                             Collectors.counting()
                     ));
             summary.put("customerTierDistribution", tierDistribution);
