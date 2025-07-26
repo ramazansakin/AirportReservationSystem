@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -139,6 +137,51 @@ public class AnalyticsController {
         }
 
         return ResponseEntity.ok(results.subList(start, end));
+    }
+
+    // Analytics Summary Endpoint
+    @GetMapping("/summary")
+    public ResponseEntity<Map<String, Object>> getAnalyticsSummary() {
+        Map<String, Object> summary = new HashMap<>();
+
+        try {
+            List<Map<String, Object>> busiestRoutes = analyticsRepository.findBusiestRoutes();
+            List<Map<String, Object>> topAirports = analyticsRepository.findTopAirportsByPassengerTraffic();
+            List<Map<String, Object>> customerAnalytics = analyticsRepository.findCustomerAnalyticsWithTiers();
+
+            summary.put("totalRoutes", busiestRoutes.size());
+            summary.put("totalAirports", topAirports.size());
+            summary.put("totalCustomers", customerAnalytics.size());
+
+            // Top 5 busiest routes
+            summary.put("top5BusiestRoutes", busiestRoutes.stream().limit(5).collect(Collectors.toList()));
+
+            // Top 5 airports
+            summary.put("top5Airports", topAirports.stream().limit(5).collect(Collectors.toList()));
+
+            // Customer tier distribution
+            Map<String, Long> tierDistribution = customerAnalytics.stream()
+                    .collect(Collectors.groupingBy(
+                            customer -> (String) customer.get("customerTier"),
+                            Collectors.counting()
+                    ));
+            summary.put("customerTierDistribution", tierDistribution);
+
+            return ResponseEntity.ok(summary);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Failed to generate analytics summary: " + e.getMessage()));
+        }
+    }
+
+    // Health check for analytics
+    @GetMapping("/health")
+    public ResponseEntity<Map<String, String>> healthCheck() {
+        return ResponseEntity.ok(Map.of(
+                "status", "UP",
+                "timestamp", Instant.now().toString(),
+                "service", "Analytics Service"
+        ));
     }
 
 }
