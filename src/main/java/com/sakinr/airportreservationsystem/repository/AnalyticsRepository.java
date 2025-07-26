@@ -27,4 +27,6 @@ public interface AnalyticsRepository {
 
     List<Map<String, Object>> findCustomerAnalyticsWithTiers();
 
+    List<Map<String, Object>> findFlightPerformanceAnalytics();
+
 }

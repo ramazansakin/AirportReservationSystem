@@ -209,5 +209,44 @@ public class AnalyticsRepositoryImpl implements AnalyticsRepository {
                 .getResultList();
     }
 
+    @Override
+    public List<Map<String, Object>> findFlightPerformanceAnalytics() {
+        String sql = """
+                SELECT
+                    f.id as flightId,
+                    f.code as flightCode,
+                    da.name as departureAirport,
+                    aa.name as arrivalAirport,
+                    f.departure_date,
+                    f.price as flightPrice,
+                    f.quota as capacity,  -- Changed from f.capacity to f.quota
+                    COUNT(t.id) as ticketsSold,
+                    CASE
+                        WHEN f.quota > 0  -- Changed from f.capacity to f.quota
+                        THEN ROUND((COUNT(t.id) * 100.0 / f.quota), 2)  -- Changed from f.capacity to f.quota
+                        ELSE 0
+                    END as occupancyRate,
+                    SUM(f.price) as totalRevenue,
+                    (f.quota - COUNT(t.id)) as availableSeats,  -- Changed from f.capacity to f.quota
+                    CASE
+                        WHEN f.quota > 0 AND (COUNT(t.id) * 100.0 / f.quota) >= 90 THEN 'High Demand'  -- Changed from f.capacity to f.quota
+                        WHEN f.quota > 0 AND (COUNT(t.id) * 100.0 / f.quota) >= 70 THEN 'Good Demand'  -- Changed from f.capacity to f.quota
+                        WHEN f.quota > 0 AND (COUNT(t.id) * 100.0 / f.quota) >= 50 THEN 'Moderate Demand'  -- Changed from f.capacity to f.quota
+                        ELSE 'Low Demand'
+                    END as demandCategory
+                FROM flight f
+                JOIN route r ON f.route_id = r.id
+                JOIN airport da ON r.departure_airport_id = da.id
+                JOIN airport aa ON r.arrival_airport_id = aa.id
+                LEFT JOIN ticket t ON f.id = t.flight_id
+                WHERE f.departure_date >= CURRENT_DATE - INTERVAL '2 months'
+                GROUP BY f.id, f.code, da.name, aa.name, f.departure_date, f.price, f.quota  -- Changed from f.capacity to f.quota
+                ORDER BY f.departure_date DESC, occupancyRate DESC
+                """;
+        return entityManager.createNativeQuery(sql)
+                .unwrap(org.hibernate.query.NativeQuery.class)
+                .setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP)
+                .getResultList();
+    }
 
 }

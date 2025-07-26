@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -106,5 +108,37 @@ public class AnalyticsController {
         return ResponseEntity.ok(results.subList(start, end));
     }
 
+    @GetMapping("/flight-performance")
+    public ResponseEntity<List<Map<String, Object>>> getFlightPerformanceAnalytics(
+            @RequestParam(required = false) String demandCategory,
+            @RequestParam(required = false) String performanceVsRoute,
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "50") @Min(1) @Max(200) int size) {
+
+        List<Map<String, Object>> results = analyticsRepository.findFlightPerformanceAnalytics();
+
+        // Apply filters
+        if (demandCategory != null && !demandCategory.isEmpty()) {
+            results = results.stream()
+                    .filter(flight -> demandCategory.equalsIgnoreCase((String) flight.get("demandCategory")))
+                    .collect(Collectors.toList());
+        }
+
+        if (performanceVsRoute != null && !performanceVsRoute.isEmpty()) {
+            results = results.stream()
+                    .filter(flight -> performanceVsRoute.equalsIgnoreCase((String) flight.get("performanceVsRoute")))
+                    .collect(Collectors.toList());
+        }
+
+        // Manual pagination
+        int start = page * size;
+        int end = Math.min(start + size, results.size());
+
+        if (start >= results.size()) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
+
+        return ResponseEntity.ok(results.subList(start, end));
+    }
 
 }
